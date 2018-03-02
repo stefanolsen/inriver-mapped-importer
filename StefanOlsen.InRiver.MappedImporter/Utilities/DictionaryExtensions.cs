@@ -22,44 +22,44 @@
 
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using inRiver.Remoting.Extension;
-using inRiver.Remoting.Extension.Interface;
 
-namespace StefanOlsen.InRiver.MappedImporter
+namespace StefanOlsen.InRiver.MappedImporter.Utilities
 {
-    public class MappedInboundExtension : IInboundDataExtension
+    internal static class DictionaryExtensions
     {
-        public inRiverContext Context { get; set; }
-        public Dictionary<string, string> DefaultSettings => new Dictionary<string, string>
+        public static int GetIntValue(this Dictionary<string, string> dictionary, string key)
         {
-            {"MAPPING_CONFIGURATION_XML", "Insert XML mapping here" }
-        };
-
-        public string Test()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string Add(string value)
-        {
-            throw new NotImplementedException();
-            string mappingDocument = Context.Settings.GetStringValue("MAPPING_CONFIGURATION_XML");
-            if (mappingDocument == null)
+            if (dictionary == null)
             {
-                throw new Exception("No setting called MAPPING_CONFIGURATION_XML was found.");
+                throw new ArgumentNullException(nameof(dictionary));
             }
+
+            if (key == null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
+
+            if (!dictionary.TryGetValue(key, out string value))
+            {
+                return -1;
+            }
+
+            return int.TryParse(value, out int result) ? result : -1;
         }
 
-        public string Update(string value)
+        public static string GetStringValue(this Dictionary<string, string> dictionary, string key)
         {
-            throw new NotImplementedException();
-        }
+            if (dictionary == null)
+            {
+                throw new ArgumentNullException(nameof(dictionary));
+            }
 
-        public string Delete(string value)
-        {
-            throw new NotImplementedException();
+            if (key == null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
+
+            return dictionary.TryGetValue(key, out string value) ? value : null;
         }
     }
 }

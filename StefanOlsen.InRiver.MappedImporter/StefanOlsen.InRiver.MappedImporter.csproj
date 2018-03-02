@@ -60,6 +60,7 @@
     <Compile Include="Parsers\LocaleStringFieldParser.cs" />
     <Compile Include="Parsers\StringFieldParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\DictionaryExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Models\Mapping\ImportMapping.xsd">
