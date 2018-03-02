@@ -50,7 +50,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CatalogDocument.cs" />
+    <Compile Include="Parsers\FieldParserFactory.cs" />
+    <Compile Include="Parsers\IFieldParser.cs" />
     <Compile Include="MappedInboundExtension.cs" />
+    <Compile Include="Parsers\LocaleStringFieldParser.cs" />
+    <Compile Include="Parsers\StringFieldParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
