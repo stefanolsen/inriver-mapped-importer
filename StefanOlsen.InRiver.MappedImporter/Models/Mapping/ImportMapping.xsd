@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://schemas.stefanolsen.com/inRiver/ImportMapping"
+    elementFormDefault="qualified"
+    xmlns="http://schemas.stefanolsen.com/inRiver/ImportMapping"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <!-- XML namespaces-->
+  <xs:complexType name="XmlNamespaces">
+    <xs:sequence>
+      <xs:element name="Namespace" type="XmlNamespace" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="XmlNamespace">
+    <xs:attribute name="Prefix" type="xs:string" use="required"/>
+    <xs:attribute name="Uri" type="xs:anyURI" use="required"/>
+  </xs:complexType>
+
+  <!-- Fields -->
+  <xs:complexType name="BaseField" abstract="true">
+    <xs:attribute type="xs:string" name="FieldType" use="required"/>
+    <xs:attribute type="xs:string" name="ElementPath" use="optional"/>
+    <xs:attribute type="xs:string" name="AttributeName" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="IntegerField">
+    <xs:complexContent>
+      <xs:extension base="BaseField"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="StringField">
+    <xs:complexContent>
+      <xs:extension base="BaseField"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="LocaleStringField">
+    <xs:complexContent>
+      <xs:extension base="StringField"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Fields">
+    <xs:choice minOccurs="1" maxOccurs="unbounded">
+      <!--<xs:element ref="DateTimeField"/>-->
+      <xs:element name="IntegerField" type="IntegerField"/>
+      <!--<xs:element ref="BooleanField"/>-->
+      <xs:element name="StringField" type="StringField"/>
+      <xs:element name="LocaleStringField" type="LocaleStringField"/>
+      <!--<xs:element ref="CvlField"/>
+        <xs:element ref="SubstringCvlField"/>
+        <xs:element ref="SkuDataField"/>-->
+    </xs:choice>
+  </xs:complexType>
+
+  <!-- Entities -->
+  <!--<xs:complexType name="Entities">
+    <xs:sequence>
+      <xs:element name="Entity" type="EntityMapping" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>-->
+  <xs:complexType name="EntityMapping">
+    <xs:sequence>
+      <xs:element name="Fields" type="Fields" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="Entity" type="EntityMapping" minOccurs="0" maxOccurs="unbounded"/>
+      <!--<xs:element ref="Links" minOccurs="0"/>
+        <xs:element ref="Fieldsets" minOccurs="0" maxOccurs="1"/>-->
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="EntityType" use="required"/>
+    <xs:attribute type="xs:string" name="Root" use="required"/>
+    <!--<xs:attribute type="xs:string" name="Key" use="required"/>-->
+  </xs:complexType>
+
+  <!-- Languages -->
+  <xs:element name="Languages">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Language" type="LanguageMapping" maxOccurs="unbounded" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="LanguageMapping">
+    <xs:attribute type="xs:string" name="Original" use="required"/>
+    <xs:attribute type="xs:string" name="InRiver" use="required"/>
+  </xs:complexType>
+
+  <xs:element name="ImportMapping">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="XmlNamespaces" type="XmlNamespaces" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="Languages" maxOccurs="1" minOccurs="1"/>
+        <xs:element name="Entity" type="EntityMapping" maxOccurs="1" minOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

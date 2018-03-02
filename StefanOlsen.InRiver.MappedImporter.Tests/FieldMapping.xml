@@ -1,1 +1,26 @@
-﻿<?xml version="1.0" encoding="utf-8" ?> 
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ImportMapping xmlns="http://schemas.stefanolsen.com/inRiver/ImportMapping">
+  <XmlNamespaces>
+    <Namespace Prefix="" Uri="http://schemas.stefanolsen.com/inRiver/TestCatalog"/>
+    <Namespace Prefix="ns" Uri="http://schemas.stefanolsen.com/inRiver/TestCatalog"/>
+  </XmlNamespaces>
+  <Languages>
+    <Language Original="da" InRiver="da"/>
+    <Language Original="en" InRiver="en"/>
+  </Languages>
+  <Entity EntityType="Product" Root="//ns:product">
+    <!-- Product fields -->
+    <Fields>
+      <StringField FieldType="ProductNumber" AttributeName="ns:number"/>
+      <LocaleStringField FieldType="ProductName" ElementPath="ns:product-name"/>
+    </Fields>
+
+    <!-- Sub-entities -->
+    <Entity EntityType="Item" Root="descendant::ns:variant">
+      <Fields>
+        <StringField FieldType="ProductNumber" AttributeName="ns:number"/>
+        <LocaleStringField FieldType="ItemName" ElementPath="ns:item-name"/>
+      </Fields>
+    </Entity>
+  </Entity>
+</ImportMapping>

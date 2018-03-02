@@ -1,1 +1,48 @@
-﻿<?xml version="1.0" encoding="utf-8" ?> 
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<catalog-export xmlns="http://schemas.stefanolsen.com/inRiver/TestCatalog">
+  <product number="Q123">
+    <product-name xml:lang="da">Test produkt</product-name>
+    <product-name xml:lang="en">Test product</product-name>
+    <product-type></product-type>
+    <brand></brand>
+    <sub-brand></sub-brand>
+    <market></market>
+    <gender></gender>
+    <category1></category1>
+    <category2></category2>
+    <season></season>
+    <variant number="Q123-11">
+      <item-name></item-name>
+      <markets></markets>
+      <upc></upc>
+      <color></color>
+      <weight></weight>
+      <height></height>
+      <width></width>
+      <length></length>
+      <quantity></quantity>
+    </variant>
+    <variant number="Q123-12">
+      <item-name></item-name>
+      <markets></markets>
+      <upc></upc>
+      <color></color>
+      <weight></weight>
+      <height></height>
+      <width></width>
+      <length></length>
+      <quantity></quantity>
+    </variant>
+    <variant number="Q123-13">
+      <item-name></item-name>
+      <markets></markets>
+      <upc></upc>
+      <color></color>
+      <weight></weight>
+      <height></height>
+      <width></width>
+      <length></length>
+      <quantity></quantity>
+    </variant>
+  </product>
+</catalog-export>

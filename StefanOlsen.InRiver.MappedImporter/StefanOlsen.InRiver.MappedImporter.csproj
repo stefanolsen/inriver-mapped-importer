@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CatalogDocument.cs" />
+    <Compile Include="Models\Mapping\ImportMapping.designer.cs" />
     <Compile Include="Parsers\FieldParserFactory.cs" />
     <Compile Include="Parsers\IFieldParser.cs" />
     <Compile Include="MappedInboundExtension.cs" />
@@ -58,6 +59,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Models\Mapping\ImportMapping.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
