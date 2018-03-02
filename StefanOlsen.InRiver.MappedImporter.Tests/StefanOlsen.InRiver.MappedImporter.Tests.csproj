@@ -87,6 +87,12 @@
   <ItemGroup>
     <EmbeddedResource Include="TestData.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StefanOlsen.InRiver.MappedImporter\StefanOlsen.InRiver.MappedImporter.csproj">
+      <Project>{66df301d-b24f-43dd-9580-cf3c6b539e34}</Project>
+      <Name>StefanOlsen.InRiver.MappedImporter</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

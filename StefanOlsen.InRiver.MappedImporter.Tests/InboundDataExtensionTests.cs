@@ -57,7 +57,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Tests
                 {"MAPPING_CONFIGURATION_XML", mappingConfiguration}
             };
 
-            IInboundDataExtension inboundDataExtension = null;
+            IInboundDataExtension inboundDataExtension = new MappedInboundExtension();
             inboundDataExtension.Context = context;
 
             return inboundDataExtension;
@@ -66,7 +66,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Tests
         [Fact]
         public void TestAddData()
         {
-            string testData = EmbeddedResourceHelper.GetResourceTextFile(MappingConfigurationFilePath);
+            string testData = EmbeddedResourceHelper.GetResourceTextFile(TestDataFilePath);
 
             IInboundDataExtension extension = CreateExtension();
             
