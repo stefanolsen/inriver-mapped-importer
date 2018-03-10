@@ -23,9 +23,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using inRiver.Remoting.Extension;
 using inRiver.Remoting.Extension.Interface;
+using StefanOlsen.InRiver.MappedImporter.Utilities;
 
 namespace StefanOlsen.InRiver.MappedImporter
 {
@@ -44,12 +46,21 @@ namespace StefanOlsen.InRiver.MappedImporter
 
         public string Add(string value)
         {
-            throw new NotImplementedException();
             string mappingDocument = Context.Settings.GetStringValue("MAPPING_CONFIGURATION_XML");
             if (mappingDocument == null)
             {
                 throw new Exception("No setting called MAPPING_CONFIGURATION_XML was found.");
             }
+
+            CatalogDocument document = new CatalogDocument(Context.ExtensionManager);
+            document.Initialize(mappingDocument, value);
+            var tmp = document.GetEntities().ToList();
+            foreach (var mappedEntity in tmp)
+            {
+                var tmp1 = mappedEntity.Fields.ToList();
+            }
+
+            return "SUCCESS";
         }
 
         public string Update(string value)
