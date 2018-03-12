@@ -52,15 +52,12 @@ namespace StefanOlsen.InRiver.MappedImporter.Mappers
                 yield break;
             }
 
-            foreach (var subentityMapping in entityMapping.Entity)
+            var entityNodes = parentNode.Select(entityMapping.Root, _namespaceResolver);
+            foreach (XPathNavigator entityNode in entityNodes)
             {
-                var entityNodes = parentNode.Select(entityMapping.Root, _namespaceResolver);
-                foreach (var entityNode in entityNodes)
-                {
-                    MappedEntity mappedEntity = GetEntity();
+                MappedEntity entity = GetEntity(entityNode, entityMapping);
 
-                    yield return mappedEntity;
-                }
+                yield return entity;
             }
         }
 

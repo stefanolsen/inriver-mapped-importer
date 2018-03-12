@@ -65,16 +65,11 @@ namespace StefanOlsen.InRiver.MappedImporter
 
         public IEnumerable<MappedEntity> GetEntities()
         {
+            XPathNavigator navigator = GetNavigator();
+
             var rootEntityMapping = _importMapping.Entity;
 
-
-            var entityNodes = _rootNavigator.Select(rootEntityMapping.Root, _namespaceResolver);
-            foreach (XPathNavigator entityNode in entityNodes)
-            {
-                MappedEntity entity = _entityMapper.GetEntity(entityNode, rootEntityMapping);
-
-                yield return entity;
-            }
+            return _entityMapper.GetEntities(navigator, rootEntityMapping);
         }
 
         private void InitializeMapping(string mappingDocument)
