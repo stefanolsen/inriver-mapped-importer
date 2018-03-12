@@ -23,7 +23,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Xml;
 using System.Xml.XPath;
 using inRiver.Remoting.Objects;
 
@@ -31,14 +30,11 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
 {
     public class LocaleStringFieldParser : IFieldParser
     {
-        private readonly IXmlNamespaceResolver _namespaceResolver;
         private readonly IDictionary<string, CultureInfo> _supportedCultures;
 
         public LocaleStringFieldParser(
-            IXmlNamespaceResolver namespaceResolver,
             IDictionary<string, CultureInfo> supportedCultures)
         {
-            _namespaceResolver = namespaceResolver;
             _supportedCultures = supportedCultures;
         }
 
@@ -47,10 +43,10 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
             throw new NotSupportedException();
         }
 
-        public object GetElementValue(XPathNavigator parentNode, string xpath)
+        public object GetElementValue(XPathNavigator parentNode, XPathExpression xpath)
         {
             var localeString = new LocaleString();
-            var localizedNodes = parentNode.Select(xpath, _namespaceResolver);
+            var localizedNodes = parentNode.Select(xpath);
 
             foreach (XPathNavigator localizedNode in localizedNodes)
             {

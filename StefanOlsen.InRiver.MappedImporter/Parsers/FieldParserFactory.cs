@@ -41,7 +41,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
             _namespaceResolver = namespaceResolver;
             _importMapping = importMapping;
             _cachedFieldParsers = new Dictionary<string, IFieldParser>();
-
+            
             _supportedCultures = _importMapping.Languages?.ToDictionary(
                 lang => lang.Original,
                 lang => CultureInfo.GetCultureInfo(lang.InRiver));
@@ -70,10 +70,10 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
             switch (fieldType.Name)
             {
                 case nameof(LocaleStringField):
-                    fieldParser = new LocaleStringFieldParser(_namespaceResolver, _supportedCultures);
+                    fieldParser = new LocaleStringFieldParser(_supportedCultures);
                     break;
                 case nameof(StringField):
-                    fieldParser = new StringFieldParser(_namespaceResolver);
+                    fieldParser = new StringFieldParser();
                     break;
                 default:
                     fieldParser = null;

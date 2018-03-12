@@ -20,20 +20,12 @@
  * SOFTWARE.
  */
 
-﻿using System.Xml;
-using System.Xml.XPath;
+﻿using System.Xml.XPath;
 
 namespace StefanOlsen.InRiver.MappedImporter.Parsers
 {
     public class StringFieldParser : IFieldParser
     {
-        private readonly IXmlNamespaceResolver _namespaceResolver;
-
-        public StringFieldParser(IXmlNamespaceResolver namespaceResolver)
-        {
-            _namespaceResolver = namespaceResolver;
-        }
-
         public object GetAttributeValue(XPathNavigator parentNode, string attributeName)
         {
             string value = parentNode.GetAttribute(attributeName, string.Empty);
@@ -41,9 +33,9 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
             return value;
         }
 
-        public object GetElementValue(XPathNavigator parentNode, string xpath)
+        public object GetElementValue(XPathNavigator parentNode, XPathExpression xpath)
         {
-            var node = parentNode.SelectSingleNode(xpath, _namespaceResolver);
+            var node = parentNode.SelectSingleNode(xpath);
 
             string value = node?.Value;
 

@@ -28,6 +28,6 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
     {
         object GetAttributeValue(XPathNavigator parentNode, string attributeName);
 
-        object GetElementValue(XPathNavigator parentNode, string xpath);
+        object GetElementValue(XPathNavigator parentNode, XPathExpression xpath);
     }
 }

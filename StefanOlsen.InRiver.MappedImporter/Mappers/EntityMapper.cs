@@ -34,6 +34,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Mappers
         private readonly IXmlNamespaceResolver _namespaceResolver;
         private readonly ImportMapping _importMapping;
         private readonly FieldParserFactory _fieldParserFactory;
+        private readonly IDictionary<string, XPathExpression> _cachedXPathExpressions;
 
         internal EntityMapper(IXmlNamespaceResolver namespaceResolver, ImportMapping importMapping)
         {
@@ -41,6 +42,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Mappers
             _importMapping = importMapping;
 
             _fieldParserFactory = new FieldParserFactory(namespaceResolver, importMapping);
+            _cachedXPathExpressions = new Dictionary<string, XPathExpression>();
         }
 
         public IEnumerable<MappedEntity> GetEntities(XPathNavigator parentNode, EntityMapping entityMapping)
@@ -102,7 +104,8 @@ namespace StefanOlsen.InRiver.MappedImporter.Mappers
             object value = null;
             if (!string.IsNullOrWhiteSpace(fieldMapping.ElementPath))
             {
-                value = fieldParser.GetElementValue(parentNode, fieldMapping.ElementPath);
+                XPathExpression xPathExpression = GetCachedExpression(fieldMapping.ElementPath);
+                value = fieldParser.GetElementValue(parentNode, xPathExpression);
             }
             else if (!string.IsNullOrWhiteSpace(fieldMapping.AttributeName))
             {
@@ -110,6 +113,19 @@ namespace StefanOlsen.InRiver.MappedImporter.Mappers
             }
 
             return value;
+        }
+
+        private XPathExpression GetCachedExpression(string xpath)
+        {
+            if (_cachedXPathExpressions.TryGetValue(xpath, out XPathExpression xPathExpression))
+            {
+                return xPathExpression;
+            }
+
+            xPathExpression = XPathExpression.Compile(xpath, _namespaceResolver);
+            _cachedXPathExpressions.Add(xpath, xPathExpression);
+
+            return xPathExpression;
         }
     }
 }
