@@ -99,12 +99,12 @@ namespace StefanOlsen.InRiver.MappedImporter.Mappers
             IFieldParser fieldParser = _fieldParserFactory.GetFieldParser(fieldMapping);
 
             object value = null;
-            if (!string.IsNullOrWhiteSpace(fieldMapping.ElementPath))
+            if (!string.IsNullOrEmpty(fieldMapping.ElementPath))
             {
                 XPathExpression xPathExpression = GetCachedExpression(fieldMapping.ElementPath);
                 value = fieldParser.GetElementValue(parentNode, xPathExpression);
             }
-            else if (!string.IsNullOrWhiteSpace(fieldMapping.AttributeName))
+            else if (!string.IsNullOrEmpty(fieldMapping.AttributeName))
             {
                 value = fieldParser.GetAttributeValue(parentNode, fieldMapping.AttributeName);
             }

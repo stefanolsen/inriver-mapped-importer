@@ -52,7 +52,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
             {
                 string langKey = localizedNode.XmlLang;
 
-                if (string.IsNullOrWhiteSpace(langKey) ||
+                if (string.IsNullOrEmpty(langKey) ||
                     !_supportedCultures.TryGetValue(langKey, out CultureInfo culture))
                 {
                     continue;
