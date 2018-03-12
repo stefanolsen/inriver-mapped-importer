@@ -23,9 +23,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Xml.XPath;
@@ -43,8 +40,7 @@ namespace StefanOlsen.InRiver.MappedImporter
 
         private EntityMapper _entityMapper;
         private ImportMapping _importMapping;
-        private XPathNavigator _rootNavigator;
-        private XPathDocument _xPathDocument;
+        private string _dataString;
 
         private bool _isInitialized;
 
@@ -98,20 +94,22 @@ namespace StefanOlsen.InRiver.MappedImporter
             _entityMapper = new EntityMapper(_namespaceResolver, _importMapping);
         }
 
-        private void LoadData(string dataDocument)
+        private XPathNavigator GetNavigator()
         {
-            Stream dataStream = GetStream(dataDocument);
-            _xPathDocument = new XPathDocument(dataStream);
+            using (TextReader stringReader = new StringReader(_dataString))
+            {
+                XPathDocument xPathDocument = new XPathDocument(stringReader);
+                XPathNavigator rootNavigator = xPathDocument.CreateNavigator();
 
-            _rootNavigator = _xPathDocument.CreateNavigator();
+                _dataString = null;
+
+                return rootNavigator;
+            }
         }
 
-        private static Stream GetStream(string data)
+        private void LoadData(string dataDocument)
         {
-            byte[] bytes = Encoding.UTF8.GetBytes(data);
-            Stream stream = new MemoryStream(bytes, false);
-
-            return stream;
+            _dataString = dataDocument;
         }
     }
 }
