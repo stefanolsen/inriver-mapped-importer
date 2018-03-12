@@ -21,19 +21,14 @@
  */
 
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Xml.XPath;
 
 namespace StefanOlsen.InRiver.MappedImporter.Models
 {
+    [DebuggerDisplay("{EntityType}")]
     public class MappedEntity
     {
-        //private readonly IEnumerable<MappedEntity> _childEntities;
-
-        //internal MappedEntity(IEnumerable<MappedEntity> childEntities)
-        //{
-        //    _childEntities = childEntities;
-        //}
-
         public string EntityType { get; set; }
 
         public IEnumerable<MappedField> GetFields(XPathNavigator parentNode)

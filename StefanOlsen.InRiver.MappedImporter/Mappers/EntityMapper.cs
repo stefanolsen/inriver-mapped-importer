@@ -21,6 +21,7 @@
  */
 
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using System.Xml.XPath;
 using StefanOlsen.InRiver.MappedImporter.Models;
@@ -47,34 +48,36 @@ namespace StefanOlsen.InRiver.MappedImporter.Mappers
 
         public IEnumerable<MappedEntity> GetEntities(XPathNavigator parentNode, EntityMapping entityMapping)
         {
-            if (entityMapping?.Entity == null)
-            {
-                yield break;
-            }
-
             var entityNodes = parentNode.Select(entityMapping.Root, _namespaceResolver);
             foreach (XPathNavigator entityNode in entityNodes)
             {
                 MappedEntity entity = GetEntity(entityNode, entityMapping);
 
                 yield return entity;
+
+                EntityMapping[] entityMappings = entityMapping.Entity;
+                if (entityMappings == null || entityMappings.Length == 0)
+                {
+                    continue;
+                }
+
+                // Recursive call of this method to get child entities.
+                IEnumerable<MappedEntity> subEntities =
+                    entityMappings.SelectMany(em => GetEntities(entityNode, em));
+                foreach (var subEntity in subEntities)
+                {
+                    yield return subEntity;
+                }
             }
         }
 
         public MappedEntity GetEntity(XPathNavigator parentNode, EntityMapping entityMapping)
         {
-            //IEnumerable<MappedEntity> childEntities = GetEntities(parentNode, entityMapping);
-
             var mappedEntity = new MappedEntity();
             mappedEntity.EntityType = entityMapping.EntityType;
             mappedEntity.Fields = GetFields(parentNode, entityMapping);
 
             return mappedEntity;
-        }
-
-        private MappedEntity GetEntity()
-        {
-            return null;
         }
 
         private IEnumerable<MappedField> GetFields(XPathNavigator parentNode, EntityMapping entityMapping)
