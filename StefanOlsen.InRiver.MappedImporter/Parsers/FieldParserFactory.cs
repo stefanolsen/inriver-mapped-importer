@@ -32,17 +32,15 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
     internal class FieldParserFactory
     {
         private readonly IXmlNamespaceResolver _namespaceResolver;
-        private readonly ImportMapping _importMapping;
         private readonly IDictionary<string, IFieldParser> _cachedFieldParsers;
         private readonly IDictionary<string, CultureInfo> _supportedCultures;
 
         public FieldParserFactory(IXmlNamespaceResolver namespaceResolver, ImportMapping importMapping)
         {
             _namespaceResolver = namespaceResolver;
-            _importMapping = importMapping;
             _cachedFieldParsers = new Dictionary<string, IFieldParser>();
-            
-            _supportedCultures = _importMapping.Languages?.ToDictionary(
+
+            _supportedCultures = importMapping.Languages?.ToDictionary(
                 lang => lang.Original,
                 lang => CultureInfo.GetCultureInfo(lang.InRiver));
         }
@@ -69,6 +67,15 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
 
             switch (fieldType.Name)
             {
+                case nameof(BooleanField):
+                    fieldParser = new BooleanFieldParser();
+                    break;
+                case nameof(DateTimeField):
+                    fieldParser = new DateTimeFieldParser();
+                    break;
+                case nameof(IntegerField):
+                    fieldParser = new IntegerFieldParser();
+                    break;
                 case nameof(LocaleStringField):
                     fieldParser = new LocaleStringFieldParser(_supportedCultures);
                     break;
@@ -76,8 +83,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
                     fieldParser = new StringFieldParser();
                     break;
                 default:
-                    fieldParser = null;
-                    break;
+                    throw new ArgumentOutOfRangeException(nameof(fieldType));
             }
 
             return fieldParser;

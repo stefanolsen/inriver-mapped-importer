@@ -54,9 +54,12 @@
     <Compile Include="Models\MappedEntity.cs" />
     <Compile Include="Models\MappedField.cs" />
     <Compile Include="Models\Mapping\ImportMapping.designer.cs" />
+    <Compile Include="Parsers\DateTimeFieldParser.cs" />
     <Compile Include="Parsers\FieldParserFactory.cs" />
     <Compile Include="Parsers\IFieldParser.cs" />
     <Compile Include="MappedInboundExtension.cs" />
+    <Compile Include="Parsers\BooleanFieldParser.cs" />
+    <Compile Include="Parsers\IntegerFieldParser.cs" />
     <Compile Include="Parsers\LocaleStringFieldParser.cs" />
     <Compile Include="Parsers\StringFieldParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
