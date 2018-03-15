@@ -20,12 +20,19 @@
  * SOFTWARE.
  */
 
-﻿namespace StefanOlsen.InRiver.MappedImporter.Utilities
+﻿using System;
+
+namespace StefanOlsen.InRiver.MappedImporter.Utilities
 {
     public static class StringExtensions
     {
         public static string RemoveSpecialCharacters(this string value)
         {
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             char[] buffer = new char[value.Length];
             int index = 0;
 

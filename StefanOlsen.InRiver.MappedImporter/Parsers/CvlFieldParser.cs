@@ -20,7 +20,8 @@
  * SOFTWARE.
  */
 
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Linq;
 using System.Xml.XPath;
 using inRiver.Remoting;
 using inRiver.Remoting.Objects;
@@ -40,7 +41,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
 
         public object GetAttributeValue(XPathNavigator parentNode, BaseField fieldMapping, string attributeName)
         {
-            CvlField cvlFieldMapping = (CvlField)fieldMapping;
+            CvlField cvlFieldMapping = (CvlField) fieldMapping;
 
             string value = parentNode.GetAttribute(attributeName, string.Empty);
 
@@ -59,7 +60,21 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
                 return null;
             }
 
-            string cvlValue = GetCvlFieldValue(cvlFieldMapping.Cvl, node.Value, cvlFieldMapping.AddValues);
+            string cvlId = cvlFieldMapping.Cvl;
+            bool addValues = cvlFieldMapping.AddValues;
+            string cvlValue;
+
+            if (!cvlFieldMapping.Multivalue)
+            {
+                cvlValue = GetCvlFieldValue(cvlId, node.Value, addValues);
+            }
+            else
+            {
+                string[] values = node.Value.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries);
+                cvlValue = string.Join(",", values
+                    .Select(cv => GetCvlFieldValue(cvlId, cv, addValues))
+                    .Where(s => s != null));
+            }
 
             return cvlValue;
         }
@@ -72,6 +87,11 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
             }
 
             string key = value.RemoveSpecialCharacters();
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                return null;
+            }
+
             key = key.ToLowerInvariant();
 
             CVLValue cvlValue = _inRiverManager.ModelService.GetCVLValueByKey(key, cvl);

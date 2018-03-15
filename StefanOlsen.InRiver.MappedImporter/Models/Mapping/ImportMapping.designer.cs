@@ -222,12 +222,16 @@ namespace StefanOlsen.InRiver.MappedImporter.Models.Mapping {
         [EditorBrowsable(EditorBrowsableState.Never)]
         private bool addValuesField;
         
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        private bool multivalueField;
+        
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string Cvl {get; set;}
 
         
         public CvlField() {
             this.addValuesField = false;
+            this.multivalueField = false;
         }
         
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -238,6 +242,17 @@ namespace StefanOlsen.InRiver.MappedImporter.Models.Mapping {
             }
             set {
                 this.addValuesField = value;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(false)]
+        public bool Multivalue {
+            get {
+                return this.multivalueField;
+            }
+            set {
+                this.multivalueField = value;
             }
         }
     }
