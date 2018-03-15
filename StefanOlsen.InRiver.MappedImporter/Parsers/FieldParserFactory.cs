@@ -25,19 +25,22 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Xml;
+using inRiver.Remoting;
 using StefanOlsen.InRiver.MappedImporter.Models.Mapping;
 
 namespace StefanOlsen.InRiver.MappedImporter.Parsers
 {
     internal class FieldParserFactory
     {
-        private readonly IXmlNamespaceResolver _namespaceResolver;
+        private readonly IinRiverManager _inRiverManager;
         private readonly IDictionary<string, IFieldParser> _cachedFieldParsers;
         private readonly IDictionary<string, CultureInfo> _supportedCultures;
 
-        public FieldParserFactory(IXmlNamespaceResolver namespaceResolver, ImportMapping importMapping)
+        public FieldParserFactory(
+            IinRiverManager inRiverManager,
+            ImportMapping importMapping)
         {
-            _namespaceResolver = namespaceResolver;
+            _inRiverManager = inRiverManager;
             _cachedFieldParsers = new Dictionary<string, IFieldParser>();
 
             _supportedCultures = importMapping.Languages?.ToDictionary(
@@ -81,6 +84,9 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
                     break;
                 case nameof(StringField):
                     fieldParser = new StringFieldParser();
+                    break;
+                case nameof(CvlField):
+                    fieldParser = new CvlFieldParser(_inRiverManager);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(fieldType));

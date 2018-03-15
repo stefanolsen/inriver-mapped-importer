@@ -20,10 +20,12 @@
  * SOFTWARE.
  */
 
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.XPath;
+using inRiver.Remoting;
 using StefanOlsen.InRiver.MappedImporter.Models;
 using StefanOlsen.InRiver.MappedImporter.Models.Mapping;
 using StefanOlsen.InRiver.MappedImporter.Parsers;
@@ -33,16 +35,21 @@ namespace StefanOlsen.InRiver.MappedImporter.Mappers
     public class EntityMapper
     {
         private readonly IXmlNamespaceResolver _namespaceResolver;
+        private readonly IinRiverManager _inRiverManager;
         private readonly ImportMapping _importMapping;
         private readonly FieldParserFactory _fieldParserFactory;
         private readonly IDictionary<string, XPathExpression> _cachedXPathExpressions;
 
-        internal EntityMapper(IXmlNamespaceResolver namespaceResolver, ImportMapping importMapping)
+        internal EntityMapper(
+            IXmlNamespaceResolver namespaceResolver,
+            IinRiverManager inRiverManager,
+            ImportMapping importMapping)
         {
             _namespaceResolver = namespaceResolver;
             _importMapping = importMapping;
+            _inRiverManager = inRiverManager;
 
-            _fieldParserFactory = new FieldParserFactory(namespaceResolver, importMapping);
+            _fieldParserFactory = new FieldParserFactory(inRiverManager, importMapping);
             _cachedXPathExpressions = new Dictionary<string, XPathExpression>();
         }
 

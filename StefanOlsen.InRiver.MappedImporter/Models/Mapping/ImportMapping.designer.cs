@@ -26,275 +26,305 @@
 //    <NameSpace>StefanOlsen.InRiver.MappedImporter.Models.Mapping</NameSpace><Collection>Array</Collection><codeType>CSharp</codeType><EnableDataBinding>False</EnableDataBinding><EnableLazyLoading>False</EnableLazyLoading><TrackingChangesEnable>False</TrackingChangesEnable><GenTrackingClasses>False</GenTrackingClasses><HidePrivateFieldInIDE>True</HidePrivateFieldInIDE><EnableSummaryComment>True</EnableSummaryComment><VirtualProp>False</VirtualProp><IncludeSerializeMethod>False</IncludeSerializeMethod><UseBaseClass>False</UseBaseClass><GenBaseClass>False</GenBaseClass><GenerateCloneMethod>False</GenerateCloneMethod><GenerateDataContracts>False</GenerateDataContracts><CodeBaseTag>Net40</CodeBaseTag><SerializeMethodName>Serialize</SerializeMethodName><DeserializeMethodName>Deserialize</DeserializeMethodName><SaveToFileMethodName>SaveToFile</SaveToFileMethodName><LoadFromFileMethodName>LoadFromFile</LoadFromFileMethodName><GenerateXMLAttributes>True</GenerateXMLAttributes><OrderXMLAttrib>False</OrderXMLAttrib><EnableEncoding>False</EnableEncoding><AutomaticProperties>True</AutomaticProperties><GenerateShouldSerialize>False</GenerateShouldSerialize><DisableDebug>True</DisableDebug><PropNameSpecified>Default</PropNameSpecified><Encoder>UTF8</Encoder><CustomUsings></CustomUsings><ExcludeIncludedTypes>False</ExcludeIncludedTypes><EnableInitializeFields>True</EnableInitializeFields>
 //  </auto-generated>
 // ------------------------------------------------------------------------------
-namespace StefanOlsen.InRiver.MappedImporter.Models.Mapping
-{
+namespace StefanOlsen.InRiver.MappedImporter.Models.Mapping {
     using System;
     using System.Diagnostics;
     using System.Xml.Serialization;
     using System.Collections;
     using System.Xml.Schema;
     using System.ComponentModel;
-
-
+    
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable = false)]
-    public partial class Languages
-    {
-
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable=false)]
+    public partial class Languages {
+        
         [EditorBrowsable(EditorBrowsableState.Never)]
         private LanguageMapping[] languageField;
-
+        
         [System.Xml.Serialization.XmlElementAttribute("Language")]
-        public LanguageMapping[] Language
-        {
-            get
-            {
+        public LanguageMapping[] Language {
+            get {
                 return this.languageField;
             }
-            set
-            {
+            set {
                 this.languageField = value;
             }
         }
     }
-
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable = true)]
-    public partial class LanguageMapping
-    {
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable=true)]
+    public partial class LanguageMapping {
+        
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public string Original {get; set;}
 
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Original { get; set; }
-
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string InRiver { get; set; }
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public string InRiver {get; set;}
 
     }
-
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable = false)]
-    public partial class ImportMapping
-    {
-
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable=false)]
+    public partial class ImportMapping {
+        
         [EditorBrowsable(EditorBrowsableState.Never)]
         private XmlNamespace[] xmlNamespacesField;
-
+        
         [EditorBrowsable(EditorBrowsableState.Never)]
         private LanguageMapping[] languagesField;
+        
+    public EntityMapping Entity {get; set;}
 
-        public EntityMapping Entity { get; set; }
-
-
-        [System.Xml.Serialization.XmlArrayItemAttribute("Namespace", IsNullable = false)]
-        public XmlNamespace[] XmlNamespaces
-        {
-            get
-            {
+        
+        [System.Xml.Serialization.XmlArrayItemAttribute("Namespace", IsNullable=false)]
+        public XmlNamespace[] XmlNamespaces {
+            get {
                 return this.xmlNamespacesField;
             }
-            set
-            {
+            set {
                 this.xmlNamespacesField = value;
             }
         }
-
-        [System.Xml.Serialization.XmlArrayItemAttribute("Language", IsNullable = false)]
-        public LanguageMapping[] Languages
-        {
-            get
-            {
+        
+        [System.Xml.Serialization.XmlArrayItemAttribute("Language", IsNullable=false)]
+        public LanguageMapping[] Languages {
+            get {
                 return this.languagesField;
             }
-            set
-            {
+            set {
                 this.languagesField = value;
             }
         }
     }
-
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable = true)]
-    public partial class XmlNamespace
-    {
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable=true)]
+    public partial class XmlNamespace {
+        
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public string Prefix {get; set;}
 
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Prefix { get; set; }
-
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "anyURI")]
-        public string Uri { get; set; }
+    [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
+    public string Uri {get; set;}
 
     }
-
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable = true)]
-    public partial class EntityMapping
-    {
-
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable=true)]
+    public partial class EntityMapping {
+        
         [EditorBrowsable(EditorBrowsableState.Never)]
         private BaseField[] fieldsField;
-
+        
         [EditorBrowsable(EditorBrowsableState.Never)]
         private EntityMapping[] entityField;
+        
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        private LinkMapping[] linksField;
+        
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public string EntityType {get; set;}
 
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string EntityType { get; set; }
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public string Root {get; set;}
 
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Root { get; set; }
-
-
-        [System.Xml.Serialization.XmlArrayItemAttribute(typeof(IntegerField), IsNullable = false)]
-        [System.Xml.Serialization.XmlArrayItemAttribute(typeof(LocaleStringField), IsNullable = false)]
-        [System.Xml.Serialization.XmlArrayItemAttribute(typeof(StringField), IsNullable = false)]
-        public BaseField[] Fields
-        {
-            get
-            {
+        
+        [System.Xml.Serialization.XmlArrayItemAttribute(typeof(BooleanField), IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayItemAttribute(typeof(CvlField), IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayItemAttribute(typeof(DateTimeField), IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayItemAttribute(typeof(IntegerField), IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayItemAttribute(typeof(LocaleStringField), IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayItemAttribute(typeof(StringField), IsNullable=false)]
+        public BaseField[] Fields {
+            get {
                 return this.fieldsField;
             }
-            set
-            {
+            set {
                 this.fieldsField = value;
             }
         }
-
+        
         [System.Xml.Serialization.XmlElementAttribute("Entity")]
-        public EntityMapping[] Entity
-        {
-            get
-            {
+        public EntityMapping[] Entity {
+            get {
                 return this.entityField;
             }
-            set
-            {
+            set {
                 this.entityField = value;
             }
         }
     }
-
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable = true)]
-    public partial class IntegerField : BaseField
-    {
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable=true)]
+    public partial class BooleanField : BaseField {
     }
-
+    
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(CvlField))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(StringField))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(LocaleStringField))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(IntegerField))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(DateTimeField))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(BooleanField))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable = true)]
-    public abstract partial class BaseField
-    {
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable=true)]
+    public abstract partial class BaseField {
+        
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public string FieldType {get; set;}
 
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string FieldType { get; set; }
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public string ElementPath {get; set;}
 
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string ElementPath { get; set; }
-
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string AttributeName { get; set; }
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public string AttributeName {get; set;}
 
     }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable=true)]
+    public partial class CvlField : BaseField {
+        
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        private bool addValuesField;
+        
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public string Cvl {get; set;}
 
+        
+        public CvlField() {
+            this.addValuesField = false;
+        }
+        
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(false)]
+        public bool AddValues {
+            get {
+                return this.addValuesField;
+            }
+            set {
+                this.addValuesField = value;
+            }
+        }
+    }
+    
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(LocaleStringField))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable = true)]
-    public partial class StringField : BaseField
-    {
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable=true)]
+    public partial class StringField : BaseField {
     }
-
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable = true)]
-    public partial class LocaleStringField : StringField
-    {
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable=true)]
+    public partial class LocaleStringField : StringField {
     }
-
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable = true)]
-    public partial class XmlNamespaces
-    {
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable=true)]
+    public partial class IntegerField : BaseField {
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable=true)]
+    public partial class DateTimeField : BaseField {
+    }
+    
 
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable=true)]
+    public partial class XmlNamespaces {
+        
         [EditorBrowsable(EditorBrowsableState.Never)]
         private XmlNamespace[] namespaceField;
-
+        
         [System.Xml.Serialization.XmlElementAttribute("Namespace")]
-        public XmlNamespace[] Namespace
-        {
-            get
-            {
+        public XmlNamespace[] Namespace {
+            get {
                 return this.namespaceField;
             }
-            set
-            {
+            set {
                 this.namespaceField = value;
             }
         }
     }
-
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable = true)]
-    public partial class Fields
-    {
-
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable=true)]
+    public partial class Fields {
+        
         [EditorBrowsable(EditorBrowsableState.Never)]
         private BaseField[] itemsField;
-
+        
+        [System.Xml.Serialization.XmlElementAttribute("BooleanField", typeof(BooleanField))]
+        [System.Xml.Serialization.XmlElementAttribute("CvlField", typeof(CvlField))]
+        [System.Xml.Serialization.XmlElementAttribute("DateTimeField", typeof(DateTimeField))]
         [System.Xml.Serialization.XmlElementAttribute("IntegerField", typeof(IntegerField))]
         [System.Xml.Serialization.XmlElementAttribute("LocaleStringField", typeof(LocaleStringField))]
         [System.Xml.Serialization.XmlElementAttribute("StringField", typeof(StringField))]
-        public BaseField[] Items
-        {
-            get
-            {
+        public BaseField[] Items {
+            get {
                 return this.itemsField;
             }
-            set
-            {
+            set {
                 this.itemsField = value;
             }
         }

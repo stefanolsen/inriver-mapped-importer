@@ -20,6 +20,16 @@
     <xs:attribute type="xs:string" name="ElementPath" use="optional"/>
     <xs:attribute type="xs:string" name="AttributeName" use="optional"/>
   </xs:complexType>
+  <xs:complexType name="BooleanField">
+    <xs:complexContent>
+      <xs:extension base="BaseField"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DateTimeField">
+    <xs:complexContent>
+      <xs:extension base="BaseField"/>
+    </xs:complexContent>
+  </xs:complexType>
   <xs:complexType name="IntegerField">
     <xs:complexContent>
       <xs:extension base="BaseField"/>
@@ -35,15 +45,23 @@
       <xs:extension base="StringField"/>
     </xs:complexContent>
   </xs:complexType>
+  <xs:complexType name="CvlField">
+    <xs:complexContent>
+      <xs:extension base="BaseField">
+        <xs:attribute name="Cvl" type="xs:string" use="required"/>
+        <xs:attribute name="AddValues" type="xs:boolean" use="optional" default="false"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
   <xs:complexType name="Fields">
     <xs:choice minOccurs="1" maxOccurs="unbounded">
-      <!--<xs:element ref="DateTimeField"/>-->
+      <xs:element name="DateTimeField" type="DateTimeField"/>
       <xs:element name="IntegerField" type="IntegerField"/>
-      <!--<xs:element ref="BooleanField"/>-->
+      <xs:element name="BooleanField" type="BooleanField"/>
       <xs:element name="StringField" type="StringField"/>
       <xs:element name="LocaleStringField" type="LocaleStringField"/>
-      <!--<xs:element ref="CvlField"/>
-        <xs:element ref="SubstringCvlField"/>
+      <xs:element name="CvlField" type="CvlField"/>
+        <!--<xs:element ref="SubstringCvlField"/>
         <xs:element ref="SkuDataField"/>-->
     </xs:choice>
   </xs:complexType>

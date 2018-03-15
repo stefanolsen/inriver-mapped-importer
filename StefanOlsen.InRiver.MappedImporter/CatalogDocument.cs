@@ -86,7 +86,7 @@ namespace StefanOlsen.InRiver.MappedImporter
                 _namespaceResolver.AddNamespace(ns.Prefix, ns.Uri);
             }
 
-            _entityMapper = new EntityMapper(_namespaceResolver, _importMapping);
+            _entityMapper = new EntityMapper(_namespaceResolver, _inRiverManager, _importMapping);
         }
 
         private XPathNavigator GetNavigator()
