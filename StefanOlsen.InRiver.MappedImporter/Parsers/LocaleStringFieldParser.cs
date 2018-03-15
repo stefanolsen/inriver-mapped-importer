@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Xml.XPath;
 using inRiver.Remoting.Objects;
+using StefanOlsen.InRiver.MappedImporter.Models.Mapping;
 
 namespace StefanOlsen.InRiver.MappedImporter.Parsers
 {
@@ -38,12 +39,12 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
             _supportedCultures = supportedCultures;
         }
 
-        public object GetAttributeValue(XPathNavigator parentNode, string attributeName)
+        public object GetAttributeValue(XPathNavigator parentNode, BaseField fieldMapping, string attributeName)
         {
             throw new NotSupportedException();
         }
 
-        public object GetElementValue(XPathNavigator parentNode, XPathExpression xpath)
+        public object GetElementValue(XPathNavigator parentNode, BaseField fieldMapping, XPathExpression xpath)
         {
             var localeString = new LocaleString();
             var localizedNodes = parentNode.Select(xpath);

@@ -21,13 +21,14 @@
  */
 
 ﻿using System.Xml.XPath;
+using StefanOlsen.InRiver.MappedImporter.Models.Mapping;
 
 namespace StefanOlsen.InRiver.MappedImporter.Parsers
 {
     internal interface IFieldParser
     {
-        object GetAttributeValue(XPathNavigator parentNode, string attributeName);
+        object GetAttributeValue(XPathNavigator parentNode, BaseField field, string attributeName);
 
-        object GetElementValue(XPathNavigator parentNode, XPathExpression xpath);
+        object GetElementValue(XPathNavigator parentNode, BaseField field, XPathExpression xpath);
     }
 }

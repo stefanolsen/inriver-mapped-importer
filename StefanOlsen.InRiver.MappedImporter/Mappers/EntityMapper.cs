@@ -101,15 +101,19 @@ namespace StefanOlsen.InRiver.MappedImporter.Mappers
         {
             IFieldParser fieldParser = _fieldParserFactory.GetFieldParser(fieldMapping);
 
-            object value = null;
+            object value;
             if (!string.IsNullOrEmpty(fieldMapping.ElementPath))
             {
                 XPathExpression xPathExpression = GetCachedExpression(fieldMapping.ElementPath);
-                value = fieldParser.GetElementValue(parentNode, xPathExpression);
+                value = fieldParser.GetElementValue(parentNode, fieldMapping, xPathExpression);
             }
             else if (!string.IsNullOrEmpty(fieldMapping.AttributeName))
             {
-                value = fieldParser.GetAttributeValue(parentNode, fieldMapping.AttributeName);
+                value = fieldParser.GetAttributeValue(parentNode, fieldMapping, fieldMapping.AttributeName);
+            }
+            else
+            {
+                throw new InvalidOperationException("Field mappings must have either ElementPath or AttributeName specified.");
             }
 
             return value;
