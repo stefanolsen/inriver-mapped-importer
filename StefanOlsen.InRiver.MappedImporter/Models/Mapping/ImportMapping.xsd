@@ -51,6 +51,7 @@
         <xs:attribute name="Cvl" type="xs:string" use="required"/>
         <xs:attribute name="AddValues" type="xs:boolean" use="optional" default="false"/>
         <xs:attribute name="Multivalue" type="xs:boolean" use="optional" default="false"/>
+        <xs:attribute name="Separator" type="xs:string" use="optional" default=","/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
