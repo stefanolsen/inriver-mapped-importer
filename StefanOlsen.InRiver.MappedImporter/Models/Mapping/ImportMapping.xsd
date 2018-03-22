@@ -67,6 +67,20 @@
         <xs:element ref="SkuDataField"/>-->
     </xs:choice>
   </xs:complexType>
+  
+  <!-- Links -->
+  <xs:complexType name="LinkMapping">
+    <xs:sequence>
+      <xs:element name="LinkEntity" type="LinkEntityMapping" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute name="LinkType" use="required"/>
+    <xs:attribute name="SourcePath" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="Links">
+    <xs:sequence>
+      <xs:element name="Link" type="LinkMapping" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
 
   <!-- Entities -->
   <!--<xs:complexType name="Entities">
@@ -96,6 +110,13 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+
+  <xs:complexType name="LinkEntityMapping">
+    <xs:complexContent>
+      <xs:extension base="BaseEntityMapping"/>
+    </xs:complexContent>
+  </xs:complexType>
+
   <!-- Field Sets-->
   <xs:complexType name="FieldSets">
     <xs:sequence>

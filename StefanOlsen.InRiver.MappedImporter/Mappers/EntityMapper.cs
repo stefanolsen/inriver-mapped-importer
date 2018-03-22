@@ -84,6 +84,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Mappers
             mappedEntity.EntityType = entityMapping.EntityType;
             mappedEntity.Fields = GetFields(parentNode, entityMapping.Fields);
             mappedEntity.FieldSet = GetFieldSet(parentNode, entityMapping);
+            mappedEntity.Links = GetLinks(parentNode, entityMapping);
             mappedEntity.UniqueFieldType = entityMapping.UniqueFieldType;
 
             return mappedEntity;
@@ -129,6 +130,31 @@ namespace StefanOlsen.InRiver.MappedImporter.Mappers
 
             return mappedFields;
         }
+
+        public IEnumerable<MappedLink> GetLinks(XPathNavigator parentNode, EntityMapping entityMapping)
+        {
+            foreach (EntityMapping e in entityMapping.Entity)
+            {
+                foreach (LinkMapping link in e.Links)
+                {
+                    yield return GetLink(parentNode, link);
+                }
+            }
+        }
+
+        public MappedLink GetLink(XPathNavigator parentNode, LinkMapping linkMapping)
+        {
+            var mappedLink = new MappedLink();
+            mappedLink.LinkType = linkMapping.LinkType;
+
+            LinkEntityMapping linkEntityMapping = linkMapping.LinkEntity;
+            if (linkEntityMapping != null)
+            {
+                mappedLink.LinkEntityType = linkEntityMapping.EntityType;
+                mappedLink.Fields = GetFields(parentNode, linkEntityMapping.Fields);
+            }
+
+            return mappedLink;
         }
 
         private object GetFieldValue(XPathNavigator parentNode, BaseField fieldMapping)
