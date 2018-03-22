@@ -96,6 +96,17 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  <!-- Field Sets-->
+  <xs:complexType name="FieldSets">
+    <xs:sequence>
+      <xs:element name="FieldSet" type="FieldSet" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="XPath" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="FieldSet">
+    <xs:attribute name="FieldSetName" type="xs:string" use="required"/>
+    <xs:attribute name="Value" type="xs:string" use="required"/>
   </xs:complexType>
 
   <!-- Languages -->

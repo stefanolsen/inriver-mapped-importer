@@ -83,26 +83,52 @@ namespace StefanOlsen.InRiver.MappedImporter.Mappers
             var mappedEntity = new MappedEntity();
             mappedEntity.EntityType = entityMapping.EntityType;
             mappedEntity.Fields = GetFields(parentNode, entityMapping.Fields);
+            mappedEntity.FieldSet = GetFieldSet(parentNode, entityMapping);
             mappedEntity.UniqueFieldType = entityMapping.UniqueFieldType;
 
             return mappedEntity;
         }
 
-        private IEnumerable<MappedField> GetFields(XPathNavigator parentNode, EntityMapping entityMapping)
+        private string GetFieldSet(XPathNavigator parentNode, EntityMapping entityMapping)
         {
-            if (entityMapping?.Fields == null)
+            FieldSets fieldSets = entityMapping.FieldSets;
+            if (fieldSets == null)
             {
-                yield break;
+                return null;
             }
 
-            foreach (BaseField fieldMapping in entityMapping.Fields)
+            string fieldSetValue = parentNode
+                .Evaluate(fieldSets.XPath, _namespaceResolver)?
+                .ToString();
+            if (fieldSetValue == null)
+            {
+                return null;
+            }
+
+            return fieldSets.FieldSet
+                .FirstOrDefault(fs => fs.Value == fieldSetValue)?
+                .FieldSetName;
+        }
+
+        private ICollection<MappedField> GetFields(XPathNavigator parentNode, BaseField[] fieldMappings)
+        {
+            var mappedFields = new List<MappedField>();
+            if (fieldMappings == null)
+            {
+                return null;
+            }
+
+            foreach (BaseField fieldMapping in fieldMappings)
             {
                 object fieldValue = GetFieldValue(parentNode, fieldMapping);
-                
+
                 var mappedField = new MappedField(fieldMapping.FieldType, fieldValue);
 
-                yield return mappedField;
+                mappedFields.Add(mappedField);
             }
+
+            return mappedFields;
+        }
         }
 
         private object GetFieldValue(XPathNavigator parentNode, BaseField fieldMapping)

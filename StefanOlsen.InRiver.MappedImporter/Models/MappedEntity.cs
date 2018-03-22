@@ -32,6 +32,8 @@ namespace StefanOlsen.InRiver.MappedImporter.Models
     {
         public string EntityType { get; set; }
 
+        public string FieldSet { get; set; }
+
         public ICollection<MappedField> Fields { get; set; }
 
         public IEnumerable<MappedLink> Links { get; set; }
