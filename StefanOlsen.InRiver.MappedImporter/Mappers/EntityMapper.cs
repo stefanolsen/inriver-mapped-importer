@@ -82,7 +82,8 @@ namespace StefanOlsen.InRiver.MappedImporter.Mappers
         {
             var mappedEntity = new MappedEntity();
             mappedEntity.EntityType = entityMapping.EntityType;
-            mappedEntity.Fields = GetFields(parentNode, entityMapping);
+            mappedEntity.Fields = GetFields(parentNode, entityMapping.Fields);
+            mappedEntity.UniqueFieldType = entityMapping.UniqueFieldType;
 
             return mappedEntity;
         }

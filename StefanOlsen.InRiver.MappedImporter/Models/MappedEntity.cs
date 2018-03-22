@@ -20,22 +20,37 @@
  * SOFTWARE.
  */
 
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using System.Xml.XPath;
+using System.Linq;
 
 namespace StefanOlsen.InRiver.MappedImporter.Models
 {
-    [DebuggerDisplay("{EntityType}")]
+    [DebuggerDisplay("{EntityType}: {UniqueFieldValue}")]
     public class MappedEntity
     {
         public string EntityType { get; set; }
 
-        public IEnumerable<MappedField> GetFields(XPathNavigator parentNode)
-        {
-            yield break;
-        }
+        public ICollection<MappedField> Fields { get; set; }
 
-        public IEnumerable<MappedField> Fields { get; set; }
+        public IEnumerable<MappedLink> Links { get; set; }
+
+        public string UniqueFieldType { get; set; }
+
+        public string UniqueFieldValue
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(UniqueFieldType))
+                {
+                    throw new InvalidOperationException("The field 'UniqueFieldType' can not be null or empty.");
+                }
+
+                MappedField uniqueField = Fields.FirstOrDefault(mf => mf.Name == UniqueFieldType);
+
+                return (string) uniqueField?.Value;
+            }
+        }
     }
 }

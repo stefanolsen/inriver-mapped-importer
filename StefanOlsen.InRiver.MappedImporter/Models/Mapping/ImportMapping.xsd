@@ -74,16 +74,28 @@
       <xs:element name="Entity" type="EntityMapping" minOccurs="1" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>-->
-  <xs:complexType name="EntityMapping">
+  
+
+  <xs:complexType name="BaseEntityMapping" abstract="true">
     <xs:sequence>
       <xs:element name="Fields" type="Fields" minOccurs="1" maxOccurs="1"/>
-      <xs:element name="Entity" type="EntityMapping" minOccurs="0" maxOccurs="unbounded"/>
-      <!--<xs:element ref="Links" minOccurs="0"/>
-        <xs:element ref="Fieldsets" minOccurs="0" maxOccurs="1"/>-->
     </xs:sequence>
     <xs:attribute type="xs:string" name="EntityType" use="required"/>
     <xs:attribute type="xs:string" name="Root" use="required"/>
-    <!--<xs:attribute type="xs:string" name="Key" use="required"/>-->
+    <xs:attribute type="xs:string" name="UniqueFieldType" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="EntityMapping">
+    <xs:complexContent>
+      <xs:extension base="BaseEntityMapping">
+        <xs:sequence>
+          <xs:element name="FieldSets" type="FieldSets" minOccurs="0" maxOccurs="1"/>
+          <xs:element name="Entity" type="EntityMapping" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="Links" type="Links" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
   </xs:complexType>
 
   <!-- Languages -->
@@ -104,7 +116,7 @@
       <xs:sequence>
         <xs:element name="XmlNamespaces" type="XmlNamespaces" minOccurs="1" maxOccurs="1"/>
         <xs:element ref="Languages" maxOccurs="1" minOccurs="1"/>
-        <xs:element name="Entity" type="EntityMapping" maxOccurs="1" minOccurs="1"/>
+        <xs:element name="Entity" type="EntityMapping" minOccurs="1" maxOccurs="1"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
