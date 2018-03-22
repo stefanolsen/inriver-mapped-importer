@@ -131,8 +131,13 @@ namespace StefanOlsen.InRiver.MappedImporter.Mappers
             return mappedFields;
         }
 
-        public IEnumerable<MappedLink> GetLinks(XPathNavigator parentNode, EntityMapping entityMapping)
+        private IEnumerable<MappedLink> GetLinks(XPathNavigator parentNode, EntityMapping entityMapping)
         {
+            if (entityMapping.Entity == null)
+            {
+                yield break;
+            }
+
             foreach (EntityMapping e in entityMapping.Entity)
             {
                 foreach (LinkMapping link in e.Links)
@@ -142,7 +147,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Mappers
             }
         }
 
-        public MappedLink GetLink(XPathNavigator parentNode, LinkMapping linkMapping)
+        private MappedLink GetLink(XPathNavigator parentNode, LinkMapping linkMapping)
         {
             var mappedLink = new MappedLink();
             mappedLink.LinkType = linkMapping.LinkType;

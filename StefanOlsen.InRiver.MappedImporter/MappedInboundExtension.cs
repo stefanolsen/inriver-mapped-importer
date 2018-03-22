@@ -22,11 +22,9 @@
 
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using inRiver.Remoting.Extension;
 using inRiver.Remoting.Extension.Interface;
+using StefanOlsen.InRiver.MappedImporter.Models;
 using StefanOlsen.InRiver.MappedImporter.Utilities;
 
 namespace StefanOlsen.InRiver.MappedImporter
@@ -54,11 +52,11 @@ namespace StefanOlsen.InRiver.MappedImporter
 
             CatalogDocument document = new CatalogDocument(Context.ExtensionManager);
             document.Initialize(mappingDocument, value);
-            var tmp = document.GetEntities().ToList();
-            foreach (var mappedEntity in tmp)
-            {
-                var tmp1 = mappedEntity.Fields.ToList();
-            }
+
+            ImportProcessor processor = new ImportProcessor(Context);
+
+            IEnumerable<MappedEntity> mappedEntities = document.GetEntities();
+            processor.ImportEntities(mappedEntities);
 
             return "SUCCESS";
         }
