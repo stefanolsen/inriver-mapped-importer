@@ -20,26 +20,11 @@
  * SOFTWARE.
  */
 
-﻿using System.Collections.Generic;
-
-namespace StefanOlsen.InRiver.MappedImporter.Models
+﻿namespace StefanOlsen.InRiver.MappedImporter.Models
 {
-    public class MappedLink
+    public enum LinkDirection
     {
-        public string LinkEntityType { get; set; }
-
-        public string LinkType { get; set; }
-
-        public LinkDirection Direction { get; set; }
-
-        public string LinkedUniqueFieldType { get; set; }
-
-        public string LinkedUniqueFieldValue { get; set; }
-
-        public bool IsIncoming { get; set; }
-
-        public int SortIndex { get; set; }
-
-        public IEnumerable<MappedField> Fields { get; set; }
+        ParentChild,
+        ChildParent
     }
 }

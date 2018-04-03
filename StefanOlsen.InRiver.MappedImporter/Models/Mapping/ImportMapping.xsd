@@ -105,7 +105,8 @@
         <xs:sequence>
           <xs:element name="FieldSets" type="FieldSets" minOccurs="0" maxOccurs="1"/>
           <xs:element name="Entity" type="EntityMapping" minOccurs="0" maxOccurs="unbounded"/>
-          <xs:element name="Links" type="Links" minOccurs="0" maxOccurs="1"/>
+          <xs:element name="ChildLinks" type="Links" minOccurs="0" maxOccurs="1"/>
+          <xs:element name="ParentLinks" type="Links" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

@@ -154,7 +154,10 @@ namespace StefanOlsen.InRiver.MappedImporter.Models.Mapping
         private EntityMapping[] entityField;
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        private LinkMapping[] linksField;
+        private LinkMapping[] childLinksField;
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        private LinkMapping[] parentLinksField;
 
         public FieldSets FieldSets { get; set; }
 
@@ -173,15 +176,28 @@ namespace StefanOlsen.InRiver.MappedImporter.Models.Mapping
         }
 
         [System.Xml.Serialization.XmlArrayItemAttribute("Link", IsNullable = false)]
-        public LinkMapping[] Links
+        public LinkMapping[] ChildLinks
         {
             get
             {
-                return this.linksField;
+                return this.childLinksField;
             }
             set
             {
-                this.linksField = value;
+                this.childLinksField = value;
+            }
+        }
+
+        [System.Xml.Serialization.XmlArrayItemAttribute("Link", IsNullable = false)]
+        public LinkMapping[] ParentLinks
+        {
+            get
+            {
+                return this.parentLinksField;
+            }
+            set
+            {
+                this.parentLinksField = value;
             }
         }
     }
@@ -249,6 +265,9 @@ namespace StefanOlsen.InRiver.MappedImporter.Models.Mapping
 
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string SourcePath { get; set; }
+
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string TargetUniqueFieldType { get; set; }
 
     }
 

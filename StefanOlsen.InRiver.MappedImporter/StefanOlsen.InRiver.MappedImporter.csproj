@@ -52,6 +52,7 @@
     <Compile Include="CatalogDocument.cs" />
     <Compile Include="ImportProcessor.cs" />
     <Compile Include="Mappers\EntityMapper.cs" />
+    <Compile Include="Models\LinkDirection.cs" />
     <Compile Include="Models\MappedEntity.cs" />
     <Compile Include="Models\MappedField.cs" />
     <Compile Include="Models\MappedLink.cs" />
