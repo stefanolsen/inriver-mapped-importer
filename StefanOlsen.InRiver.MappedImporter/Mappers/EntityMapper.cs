@@ -49,7 +49,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Mappers
             _importMapping = importMapping;
             _inRiverManager = inRiverManager;
 
-            _fieldParserFactory = new FieldParserFactory(inRiverManager, importMapping);
+            _fieldParserFactory = new FieldParserFactory(inRiverManager, namespaceResolver, importMapping);
             _cachedXPathExpressions = new Dictionary<string, XPathExpression>();
         }
 
@@ -133,24 +133,37 @@ namespace StefanOlsen.InRiver.MappedImporter.Mappers
 
         private IEnumerable<MappedLink> GetLinks(XPathNavigator parentNode, EntityMapping entityMapping)
         {
-            if (entityMapping.Entity == null)
+            if (entityMapping.ParentLinks != null)
+            {
+                foreach (LinkMapping linkMapping in entityMapping.ParentLinks)
+                {
+                    yield return GetLink(parentNode, linkMapping, false);
+                }
+            }
+
+            if (entityMapping.ChildLinks == null)
             {
                 yield break;
             }
 
-            foreach (EntityMapping e in entityMapping.Entity)
+            foreach (LinkMapping linkMapping in entityMapping.ChildLinks)
             {
-                foreach (LinkMapping link in e.Links)
-                {
-                    yield return GetLink(parentNode, link);
-                }
+                yield return GetLink(parentNode, linkMapping, true);
             }
         }
 
-        private MappedLink GetLink(XPathNavigator parentNode, LinkMapping linkMapping)
+        private MappedLink GetLink(XPathNavigator parentNode, LinkMapping linkMapping, bool isChildLink)
         {
+            XPathExpression xPathExpression = GetCachedExpression(linkMapping.SourcePath);
+            string targetUniqueValue = parentNode
+                .Evaluate(xPathExpression)?
+                .ToString();
+
             var mappedLink = new MappedLink();
             mappedLink.LinkType = linkMapping.LinkType;
+            mappedLink.LinkedUniqueFieldType = linkMapping.TargetUniqueFieldType;
+            mappedLink.LinkedUniqueFieldValue = targetUniqueValue;
+            mappedLink.Direction = isChildLink ? LinkDirection.ParentChild : LinkDirection.ChildParent;
 
             LinkEntityMapping linkEntityMapping = linkMapping.LinkEntity;
             if (linkEntityMapping != null)

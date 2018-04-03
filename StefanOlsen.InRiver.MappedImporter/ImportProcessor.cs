@@ -105,9 +105,50 @@ namespace StefanOlsen.InRiver.MappedImporter
 
                 foreach (MappedLink mappedLink in mappedEntity.Links)
                 {
-
+                    ImportLink(mappedEntity, mappedLink, entity);
                 }
             }
+        }
+
+        private void ImportLink(MappedEntity mappedEntity, MappedLink mappedLink, Entity currentEntity)
+        {
+            Entity linkedEntity = _context.ExtensionManager.DataService.GetEntityByUniqueValue(
+                mappedLink.LinkedUniqueFieldType,
+                mappedLink.LinkedUniqueFieldValue,
+                LoadLevel.Shallow);
+            if (linkedEntity == null)
+            {
+                return;
+            }
+
+            LinkType linkType = _context.ExtensionManager.ModelService.GetLinkType(mappedLink.LinkType);
+            if (linkType == null)
+            {
+                return;
+            }
+
+            Entity sourceEntity;
+            Entity targetEntity;
+            if (mappedLink.Direction == LinkDirection.ChildParent)
+            {
+                sourceEntity = linkedEntity;
+                targetEntity = currentEntity;
+            }
+            else
+            {
+                sourceEntity = currentEntity;
+                targetEntity = linkedEntity;
+            }
+
+            Link link = new Link
+            {
+                LinkType = linkType,
+                Source = sourceEntity,
+                Target = targetEntity,
+                Index = mappedLink.SortIndex
+            };
+
+            _context.ExtensionManager.DataService.AddLink(link);
         }
     }
 }
