@@ -310,6 +310,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Models.Mapping
         [System.Xml.Serialization.XmlArrayItemAttribute(typeof(DateTimeField), IsNullable = false)]
         [System.Xml.Serialization.XmlArrayItemAttribute(typeof(IntegerField), IsNullable = false)]
         [System.Xml.Serialization.XmlArrayItemAttribute(typeof(LocaleStringField), IsNullable = false)]
+        [System.Xml.Serialization.XmlArrayItemAttribute(typeof(SKUField), IsNullable = false)]
         [System.Xml.Serialization.XmlArrayItemAttribute(typeof(StringField), IsNullable = false)]
         public BaseField[] Fields
         {
@@ -334,6 +335,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Models.Mapping
     {
     }
 
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SKUField))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(CvlField))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(StringField))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(LocaleStringField))]
@@ -357,6 +359,53 @@ namespace StefanOlsen.InRiver.MappedImporter.Models.Mapping
 
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string AttributeName { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable = true)]
+    public partial class SKUField : BaseField
+    {
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        private SKUElement[] sKUElementField;
+
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string KeyAttribute { get; set; }
+
+
+        [System.Xml.Serialization.XmlElementAttribute("SKUElement")]
+        public SKUElement[] SKUElement
+        {
+            get
+            {
+                return this.sKUElementField;
+            }
+            set
+            {
+                this.sKUElementField = value;
+            }
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.stefanolsen.com/inRiver/ImportMapping", IsNullable = true)]
+    public partial class SKUElement
+    {
+
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Name { get; set; }
+
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string ElementPath { get; set; }
 
     }
 
@@ -516,6 +565,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Models.Mapping
         [System.Xml.Serialization.XmlElementAttribute("DateTimeField", typeof(DateTimeField))]
         [System.Xml.Serialization.XmlElementAttribute("IntegerField", typeof(IntegerField))]
         [System.Xml.Serialization.XmlElementAttribute("LocaleStringField", typeof(LocaleStringField))]
+        [System.Xml.Serialization.XmlElementAttribute("SKUField", typeof(SKUField))]
         [System.Xml.Serialization.XmlElementAttribute("StringField", typeof(StringField))]
         public BaseField[] Items
         {

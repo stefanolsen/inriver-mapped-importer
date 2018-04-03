@@ -55,6 +55,20 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  <xs:complexType name="SKUField">
+    <xs:complexContent>
+      <xs:extension base="BaseField">
+        <xs:sequence>
+          <xs:element name="SKUElement" type="SKUElement" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="KeyAttribute" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SKUElement">
+    <xs:attribute type="xs:string" name="Name" use="required"/>
+    <xs:attribute type="xs:string" name="ElementPath" use="required"/>
+  </xs:complexType>
   <xs:complexType name="Fields">
     <xs:choice minOccurs="1" maxOccurs="unbounded">
       <xs:element name="DateTimeField" type="DateTimeField"/>
@@ -63,18 +77,18 @@
       <xs:element name="StringField" type="StringField"/>
       <xs:element name="LocaleStringField" type="LocaleStringField"/>
       <xs:element name="CvlField" type="CvlField"/>
-        <!--<xs:element ref="SubstringCvlField"/>
-        <xs:element ref="SkuDataField"/>-->
+      <xs:element name="SKUField" type="SKUField"/>
     </xs:choice>
   </xs:complexType>
-  
+
   <!-- Links -->
   <xs:complexType name="LinkMapping">
     <xs:sequence>
       <xs:element name="LinkEntity" type="LinkEntityMapping" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
-    <xs:attribute name="LinkType" use="required"/>
-    <xs:attribute name="SourcePath" use="required"/>
+    <xs:attribute name="LinkType" type="xs:string" use="required"/>
+    <xs:attribute name="SourcePath" type="xs:string" use="required"/>
+    <xs:attribute name="TargetUniqueFieldType" type="xs:string" use="required"/>
   </xs:complexType>
   <xs:complexType name="Links">
     <xs:sequence>
@@ -88,7 +102,7 @@
       <xs:element name="Entity" type="EntityMapping" minOccurs="1" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>-->
-  
+
 
   <xs:complexType name="BaseEntityMapping" abstract="true">
     <xs:sequence>

@@ -33,14 +33,17 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
     internal class FieldParserFactory
     {
         private readonly IinRiverManager _inRiverManager;
+        private readonly IXmlNamespaceResolver _namespaceResolver;
         private readonly IDictionary<string, IFieldParser> _cachedFieldParsers;
         private readonly IDictionary<string, CultureInfo> _supportedCultures;
 
         public FieldParserFactory(
             IinRiverManager inRiverManager,
+            IXmlNamespaceResolver namespaceResolver,
             ImportMapping importMapping)
         {
             _inRiverManager = inRiverManager;
+            _namespaceResolver = namespaceResolver;
             _cachedFieldParsers = new Dictionary<string, IFieldParser>();
 
             _supportedCultures = importMapping.Languages?.ToDictionary(
@@ -57,7 +60,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
             {
                 return fieldParser;
             }
-
+             
             fieldParser = CreateFieldParser(fieldType);
             _cachedFieldParsers.Add(fieldTypeName, fieldParser);
 
@@ -87,6 +90,9 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
                     break;
                 case nameof(CvlField):
                     fieldParser = new CvlFieldParser(_inRiverManager);
+                    break;
+                case nameof(SKUField):
+                    fieldParser = new SkuFieldParser(_namespaceResolver);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(fieldType));
