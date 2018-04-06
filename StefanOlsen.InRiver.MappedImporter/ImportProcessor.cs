@@ -74,7 +74,8 @@ namespace StefanOlsen.InRiver.MappedImporter
                 bool entityModified = false;
                 foreach (MappedField mappedField in mappedEntity.Fields)
                 {
-                    Field field = entity.GetField(mappedField.Name);
+                    // This extension method is much more efficient than the built-in GetField() method.
+                    Field field = entity.GetFieldOrdinal(mappedField.Name);
                     if (field == null)
                     {
                         throw new InvalidOperationException(
