@@ -68,6 +68,7 @@
     <Compile Include="Parsers\SkuFieldParser.cs" />
     <Compile Include="Parsers\StringFieldParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\CachedXPathCompiler.cs" />
     <Compile Include="Utilities\DictionaryExtensions.cs" />
     <Compile Include="Utilities\StringExtensions.cs" />
   </ItemGroup>

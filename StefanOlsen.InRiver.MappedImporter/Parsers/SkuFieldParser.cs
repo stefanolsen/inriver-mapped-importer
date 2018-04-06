@@ -21,28 +21,21 @@
  */
 
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Xml;
-using System.Xml.Serialization;
 using System.Xml.XPath;
-using StefanOlsen.InRiver.MappedImporter.Models;
 using StefanOlsen.InRiver.MappedImporter.Models.Mapping;
+using StefanOlsen.InRiver.MappedImporter.Utilities;
 
 namespace StefanOlsen.InRiver.MappedImporter.Parsers
 {
     public class SkuFieldParser : IFieldParser
     {
-        private const string RootNamespaceSkuDocument = "http://schemas.stefanolsen.com/inRiver/SKU-document";
-        private readonly XmlSerializerNamespaces _serializerNamespaces;
-        private readonly IXmlNamespaceResolver _namespaceResolver;
+        private readonly CachedXPathCompiler _xPathCompiler;
 
-        public SkuFieldParser(IXmlNamespaceResolver namespaceResolver)
+        public SkuFieldParser(CachedXPathCompiler xPathCompiler)
         {
-            _namespaceResolver = namespaceResolver;
-
-            _serializerNamespaces = new XmlSerializerNamespaces();
-            _serializerNamespaces.Add("", RootNamespaceSkuDocument);
+            _xPathCompiler = xPathCompiler;
         }
 
         public object GetAttributeValue(XPathNavigator parentNode, BaseField fieldMapping, string attributeName)
@@ -52,46 +45,52 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
 
         public object GetElementValue(XPathNavigator parentNode, BaseField fieldMapping, XPathExpression xpath)
         {
-            var descendants = parentNode.Select(xpath);
-            var skuList = new List<SKU>(descendants.Count);
-
             SKUField skuFieldMapping = (SKUField)fieldMapping;
+
+            var descendants = parentNode.Select(xpath);
+
+            var doc = new XmlDocument();
+            XmlElement rootNode = doc.CreateElement("SKUs");
+            doc.AppendChild(rootNode);
 
             foreach (XPathNavigator descendant in descendants)
             {
-                var skuElements = new List<XmlElement>();
+                var skuNode = doc.CreateElement("SKU");
 
-                var sku = new SKU();
                 if (!string.IsNullOrEmpty(skuFieldMapping.KeyAttribute))
                 {
-                    sku.Id = descendant.GetAttribute(skuFieldMapping.KeyAttribute, string.Empty);
+                    string id = descendant.GetAttribute(skuFieldMapping.KeyAttribute, string.Empty);
+
+                    XmlAttribute idAttribute = doc.CreateAttribute("Id");
+                    idAttribute.Value = id;
+
+                    skuNode.Attributes.Append(idAttribute);
                 }
                 
-                var doc = new XmlDocument();
                 foreach (var element in skuFieldMapping.SKUElement)
                 {
-                    var skuElement = doc.CreateElement(element.Name, RootNamespaceSkuDocument);
-                    var node = descendant.SelectSingleNode(element.ElementPath, _namespaceResolver);
+                    XPathExpression xPathExpression = _xPathCompiler.GetCachedExpression(element.ElementPath);
+                    var node = descendant.SelectSingleNode(xPathExpression);
                     if (node == null)
                     {
                         continue;
                     }
 
-                    skuElement.InnerText = node.Value;
-                    skuElements.Add(skuElement);
+                    var fieldElement = doc.CreateElement(element.Name);
+                    fieldElement.InnerText = node.Value;
+
+                    skuNode.AppendChild(fieldElement);
                 }
 
-                sku.Any = skuElements.ToArray();
-                skuList.Add(sku);
+                rootNode.AppendChild(skuNode);
             }
 
-            var skuDocument = new SKUs { SKU = skuList.ToArray() };
-
-            var serializer = new XmlSerializer(typeof(SKUs));
             using (var stringWriter = new StringWriter())
             using (var xmlWriter = XmlWriter.Create(stringWriter))
             {
-                serializer.Serialize(xmlWriter, skuDocument, _serializerNamespaces);
+                doc.WriteTo(xmlWriter);
+                xmlWriter.Flush();
+
                 string xml = stringWriter.ToString();
 
                 return xml;

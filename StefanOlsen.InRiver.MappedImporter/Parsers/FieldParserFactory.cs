@@ -24,28 +24,28 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Xml;
 using inRiver.Remoting;
 using StefanOlsen.InRiver.MappedImporter.Models.Mapping;
+using StefanOlsen.InRiver.MappedImporter.Utilities;
 
 namespace StefanOlsen.InRiver.MappedImporter.Parsers
 {
     internal class FieldParserFactory
     {
         private readonly IinRiverManager _inRiverManager;
-        private readonly IXmlNamespaceResolver _namespaceResolver;
+        private readonly CachedXPathCompiler _xPathCompiler;
         private readonly IDictionary<string, IFieldParser> _cachedFieldParsers;
         private readonly IDictionary<string, CultureInfo> _supportedCultures;
 
         public FieldParserFactory(
             IinRiverManager inRiverManager,
-            IXmlNamespaceResolver namespaceResolver,
+            CachedXPathCompiler xPathCompiler,
             ImportMapping importMapping)
         {
             _inRiverManager = inRiverManager;
-            _namespaceResolver = namespaceResolver;
-            _cachedFieldParsers = new Dictionary<string, IFieldParser>();
+            _xPathCompiler = xPathCompiler;
 
+            _cachedFieldParsers = new Dictionary<string, IFieldParser>();
             _supportedCultures = importMapping.Languages?.ToDictionary(
                 lang => lang.Original,
                 lang => CultureInfo.GetCultureInfo(lang.InRiver));
@@ -92,7 +92,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
                     fieldParser = new CvlFieldParser(_inRiverManager);
                     break;
                 case nameof(SKUField):
-                    fieldParser = new SkuFieldParser(_namespaceResolver);
+                    fieldParser = new SkuFieldParser(_xPathCompiler);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(fieldType));

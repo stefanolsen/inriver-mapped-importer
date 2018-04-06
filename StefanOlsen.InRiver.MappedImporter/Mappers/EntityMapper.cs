@@ -29,16 +29,15 @@ using inRiver.Remoting;
 using StefanOlsen.InRiver.MappedImporter.Models;
 using StefanOlsen.InRiver.MappedImporter.Models.Mapping;
 using StefanOlsen.InRiver.MappedImporter.Parsers;
+using StefanOlsen.InRiver.MappedImporter.Utilities;
 
 namespace StefanOlsen.InRiver.MappedImporter.Mappers
 {
     public class EntityMapper
     {
         private readonly IXmlNamespaceResolver _namespaceResolver;
-        private readonly IinRiverManager _inRiverManager;
-        private readonly ImportMapping _importMapping;
         private readonly FieldParserFactory _fieldParserFactory;
-        private readonly IDictionary<string, XPathExpression> _cachedXPathExpressions;
+        private readonly CachedXPathCompiler _xPathCompiler;
 
         internal EntityMapper(
             IXmlNamespaceResolver namespaceResolver,
@@ -46,11 +45,9 @@ namespace StefanOlsen.InRiver.MappedImporter.Mappers
             ImportMapping importMapping)
         {
             _namespaceResolver = namespaceResolver;
-            _importMapping = importMapping;
-            _inRiverManager = inRiverManager;
 
-            _fieldParserFactory = new FieldParserFactory(inRiverManager, namespaceResolver, importMapping);
-            _cachedXPathExpressions = new Dictionary<string, XPathExpression>();
+            _xPathCompiler = new CachedXPathCompiler(_namespaceResolver);
+            _fieldParserFactory = new FieldParserFactory(inRiverManager, _xPathCompiler, importMapping);
         }
 
         public IEnumerable<MappedEntity> GetEntities(XPathNavigator parentNode, EntityMapping entityMapping)
@@ -154,7 +151,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Mappers
 
         private MappedLink GetLink(XPathNavigator parentNode, LinkMapping linkMapping, bool isChildLink)
         {
-            XPathExpression xPathExpression = GetCachedExpression(linkMapping.SourcePath);
+            XPathExpression xPathExpression = _xPathCompiler.GetCachedExpression(linkMapping.SourcePath);
             string targetUniqueValue = parentNode
                 .Evaluate(xPathExpression)?
                 .ToString();
@@ -182,7 +179,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Mappers
             object value;
             if (!string.IsNullOrEmpty(fieldMapping.ElementPath))
             {
-                XPathExpression xPathExpression = GetCachedExpression(fieldMapping.ElementPath);
+                XPathExpression xPathExpression = _xPathCompiler.GetCachedExpression(fieldMapping.ElementPath);
                 value = fieldParser.GetElementValue(parentNode, fieldMapping, xPathExpression);
             }
             else if (!string.IsNullOrEmpty(fieldMapping.AttributeName))
@@ -195,19 +192,6 @@ namespace StefanOlsen.InRiver.MappedImporter.Mappers
             }
 
             return value;
-        }
-
-        private XPathExpression GetCachedExpression(string xpath)
-        {
-            if (_cachedXPathExpressions.TryGetValue(xpath, out XPathExpression xPathExpression))
-            {
-                return xPathExpression;
-            }
-
-            xPathExpression = XPathExpression.Compile(xpath, _namespaceResolver);
-            _cachedXPathExpressions.Add(xpath, xPathExpression);
-
-            return xPathExpression;
         }
     }
 }
