@@ -57,7 +57,6 @@
     <Compile Include="Models\MappedField.cs" />
     <Compile Include="Models\MappedLink.cs" />
     <Compile Include="Models\Mapping\ImportMapping.designer.cs" />
-    <Compile Include="Models\SKU.designer.cs" />
     <Compile Include="Parsers\CvlFieldParser.cs" />
     <Compile Include="Parsers\DateTimeFieldParser.cs" />
     <Compile Include="Parsers\FieldParserFactory.cs" />
@@ -74,9 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Models\Mapping\ImportMapping.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Models\SKU.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
