@@ -146,6 +146,13 @@ namespace StefanOlsen.InRiver.MappedImporter
                 targetEntity = linkedEntity;
             }
 
+            bool linkExists = _context.ExtensionManager.DataService.LinkAlreadyExists(
+                sourceEntity.Id, targetEntity.Id, null, linkType.Id);
+            if (linkExists)
+            {
+                return;
+            }
+
             Link link = new Link
             {
                 LinkType = linkType,
