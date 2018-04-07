@@ -27,8 +27,6 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
 {
     internal interface IFieldParser
     {
-        object GetAttributeValue(XPathNavigator parentNode, BaseField fieldMapping, string attributeName);
-
         object GetElementValue(XPathNavigator parentNode, BaseField fieldMapping, XPathExpression xpath);
     }
 }

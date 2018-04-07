@@ -24,7 +24,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using inRiver.Remoting;
+using StefanOlsen.InRiver.MappedImporter.Mappers;
 using StefanOlsen.InRiver.MappedImporter.Models.Mapping;
 using StefanOlsen.InRiver.MappedImporter.Utilities;
 
@@ -32,17 +32,17 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
 {
     internal class FieldParserFactory
     {
-        private readonly IinRiverManager _inRiverManager;
+        private readonly CvlRepository _cvlRepository;
         private readonly CachedXPathCompiler _xPathCompiler;
         private readonly IDictionary<string, IFieldParser> _cachedFieldParsers;
         private readonly IDictionary<string, CultureInfo> _supportedCultures;
 
         public FieldParserFactory(
-            IinRiverManager inRiverManager,
+            CvlRepository  cvlRepository,
             CachedXPathCompiler xPathCompiler,
             ImportMapping importMapping)
         {
-            _inRiverManager = inRiverManager;
+            _cvlRepository = cvlRepository;
             _xPathCompiler = xPathCompiler;
 
             _cachedFieldParsers = new Dictionary<string, IFieldParser>();
@@ -89,7 +89,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
                     fieldParser = new StringFieldParser();
                     break;
                 case nameof(CvlField):
-                    fieldParser = new CvlFieldParser(_inRiverManager);
+                    fieldParser = new CvlFieldParser(_cvlRepository);
                     break;
                 case nameof(SKUField):
                     fieldParser = new SkuFieldParser(_xPathCompiler);

@@ -23,8 +23,8 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.XPath;
-using inRiver.Remoting;
 using inRiver.Remoting.Objects;
+using StefanOlsen.InRiver.MappedImporter.Mappers;
 using StefanOlsen.InRiver.MappedImporter.Models.Mapping;
 using StefanOlsen.InRiver.MappedImporter.Utilities;
 
@@ -32,22 +32,11 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
 {
     public class CvlFieldParser : IFieldParser
     {
-        private readonly IinRiverManager _inRiverManager;
+        private readonly CvlRepository _cvlRepository;
 
-        public CvlFieldParser(IinRiverManager inRiverManager)
+        public CvlFieldParser(CvlRepository cvlRepository)
         {
-            _inRiverManager = inRiverManager;
-        }
-
-        public object GetAttributeValue(XPathNavigator parentNode, BaseField fieldMapping, string attributeName)
-        {
-            CvlField cvlFieldMapping = (CvlField)fieldMapping;
-
-            string value = parentNode.GetAttribute(attributeName, string.Empty);
-
-            string cvlValue = GetCvlFieldValue(cvlFieldMapping.Cvl, value, cvlFieldMapping.AddValues);
-
-            return cvlValue;
+            _cvlRepository = cvlRepository;
         }
 
         public object GetElementValue(XPathNavigator parentNode, BaseField fieldMapping, XPathExpression xpath)
@@ -96,7 +85,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
 
             key = key.ToLowerInvariant();
 
-            CVLValue cvlValue = _inRiverManager.ModelService.GetCVLValueByKey(key, cvl);
+            CVLValue cvlValue = _cvlRepository.GetCVLValueByKey(cvl, key);
             if (cvlValue != null)
             {
                 return cvlValue.Key;
@@ -108,7 +97,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
             }
 
             cvlValue = new CVLValue { CVLId = cvl, Key = key, Value = value };
-            _inRiverManager.ModelService.AddCVLValue(cvlValue);
+            _cvlRepository.AddCVLValue(cvlValue);
 
             return key;
         }

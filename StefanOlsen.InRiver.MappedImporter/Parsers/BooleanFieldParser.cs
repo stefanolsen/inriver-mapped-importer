@@ -27,15 +27,6 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
 {
     public class BooleanFieldParser : IFieldParser
     {
-        public object GetAttributeValue(XPathNavigator parentNode, BaseField fieldMapping, string attributeName)
-        {
-            string value = parentNode.GetAttribute(attributeName, string.Empty);
-
-            bool? boolean = GetBoolean(value);
-
-            return boolean;
-        }
-
         public object GetElementValue(XPathNavigator parentNode, BaseField fieldMapping, XPathExpression xpath)
         {
             var node = parentNode.SelectSingleNode(xpath);

@@ -175,21 +175,14 @@ namespace StefanOlsen.InRiver.MappedImporter.Mappers
         private object GetFieldValue(XPathNavigator parentNode, BaseField fieldMapping)
         {
             IFieldParser fieldParser = _fieldParserFactory.GetFieldParser(fieldMapping);
+            if (string.IsNullOrEmpty(fieldMapping.ElementPath))
+            {
+                throw new InvalidOperationException(
+                    "Field mappings must have an ElementPath specified.");
+            }
 
-            object value;
-            if (!string.IsNullOrEmpty(fieldMapping.ElementPath))
-            {
-                XPathExpression xPathExpression = _xPathCompiler.GetCachedExpression(fieldMapping.ElementPath);
-                value = fieldParser.GetElementValue(parentNode, fieldMapping, xPathExpression);
-            }
-            else if (!string.IsNullOrEmpty(fieldMapping.AttributeName))
-            {
-                value = fieldParser.GetAttributeValue(parentNode, fieldMapping, fieldMapping.AttributeName);
-            }
-            else
-            {
-                throw new InvalidOperationException("Field mappings must have either ElementPath or AttributeName specified.");
-            }
+            XPathExpression xPathExpression = _xPathCompiler.GetCachedExpression(fieldMapping.ElementPath);
+            object value = fieldParser.GetElementValue(parentNode, fieldMapping, xPathExpression);
 
             return value;
         }

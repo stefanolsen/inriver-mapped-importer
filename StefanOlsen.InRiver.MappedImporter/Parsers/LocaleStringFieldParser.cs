@@ -39,11 +39,6 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
             _supportedCultures = supportedCultures;
         }
 
-        public object GetAttributeValue(XPathNavigator parentNode, BaseField fieldMapping, string attributeName)
-        {
-            throw new NotSupportedException();
-        }
-
         public object GetElementValue(XPathNavigator parentNode, BaseField fieldMapping, XPathExpression xpath)
         {
             var localeString = new LocaleString();

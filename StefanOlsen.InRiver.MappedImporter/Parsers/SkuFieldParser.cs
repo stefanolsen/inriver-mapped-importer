@@ -38,11 +38,6 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
             _xPathCompiler = xPathCompiler;
         }
 
-        public object GetAttributeValue(XPathNavigator parentNode, BaseField fieldMapping, string attributeName)
-        {
-            throw new NotSupportedException();
-        }
-
         public object GetElementValue(XPathNavigator parentNode, BaseField fieldMapping, XPathExpression xpath)
         {
             SKUField skuFieldMapping = (SKUField)fieldMapping;

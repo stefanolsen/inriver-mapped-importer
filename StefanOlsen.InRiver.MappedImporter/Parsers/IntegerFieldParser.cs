@@ -27,15 +27,6 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
 {
     public class IntegerFieldParser : IFieldParser
     {
-        public object GetAttributeValue(XPathNavigator parentNode, BaseField fieldMapping, string attributeName)
-        {
-            string value = parentNode.GetAttribute(attributeName, string.Empty);
-
-            int? integer = GetInteger(value);
-
-            return integer;
-        }
-
         public object GetElementValue(XPathNavigator parentNode, BaseField fieldMapping, XPathExpression xpath)
         {
             var node = parentNode.SelectSingleNode(xpath);
