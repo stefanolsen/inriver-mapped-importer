@@ -25,7 +25,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.XPath;
-using inRiver.Remoting;
 using StefanOlsen.InRiver.MappedImporter.Models;
 using StefanOlsen.InRiver.MappedImporter.Models.Mapping;
 using StefanOlsen.InRiver.MappedImporter.Parsers;
@@ -41,13 +40,13 @@ namespace StefanOlsen.InRiver.MappedImporter.Mappers
 
         internal EntityMapper(
             IXmlNamespaceResolver namespaceResolver,
-            IinRiverManager inRiverManager,
+            CvlRepository cvlCachedRepository,
             ImportMapping importMapping)
         {
             _namespaceResolver = namespaceResolver;
 
             _xPathCompiler = new CachedXPathCompiler(_namespaceResolver);
-            _fieldParserFactory = new FieldParserFactory(inRiverManager, _xPathCompiler, importMapping);
+            _fieldParserFactory = new FieldParserFactory(cvlCachedRepository, _xPathCompiler, importMapping);
         }
 
         public IEnumerable<MappedEntity> GetEntities(XPathNavigator parentNode, EntityMapping entityMapping)

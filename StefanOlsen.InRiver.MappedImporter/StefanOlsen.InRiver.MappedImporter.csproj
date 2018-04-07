@@ -51,7 +51,9 @@
   <ItemGroup>
     <Compile Include="CatalogDocument.cs" />
     <Compile Include="ImportProcessor.cs" />
+    <Compile Include="Mappers\CvlRepository.cs" />
     <Compile Include="Mappers\EntityMapper.cs" />
+    <Compile Include="Mappers\ModelsRepository.cs" />
     <Compile Include="Models\LinkDirection.cs" />
     <Compile Include="Models\MappedEntity.cs" />
     <Compile Include="Models\MappedField.cs" />

@@ -26,7 +26,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Xml.XPath;
-using inRiver.Remoting;
+using inRiver.Remoting.Extension;
 using StefanOlsen.InRiver.MappedImporter.Mappers;
 using StefanOlsen.InRiver.MappedImporter.Models;
 using StefanOlsen.InRiver.MappedImporter.Models.Mapping;
@@ -35,7 +35,8 @@ namespace StefanOlsen.InRiver.MappedImporter
 {
     public class CatalogDocument
     {
-        private readonly IinRiverManager _inRiverManager;
+        private readonly inRiverContext _context;
+        private readonly CvlRepository _cvlRepository;
         private readonly XmlNamespaceManager _namespaceResolver;
 
         private EntityMapper _entityMapper;
@@ -44,9 +45,11 @@ namespace StefanOlsen.InRiver.MappedImporter
 
         private bool _isInitialized;
 
-        public CatalogDocument(IinRiverManager inRiverManager)
+        public CatalogDocument(inRiverContext context)
         {
-            _inRiverManager = inRiverManager;
+            _context = context;
+
+            _cvlRepository = new CvlRepository(context.ExtensionManager);
             _namespaceResolver = new XmlNamespaceManager(new NameTable());
         }
 
@@ -86,7 +89,8 @@ namespace StefanOlsen.InRiver.MappedImporter
                 _namespaceResolver.AddNamespace(ns.Prefix, ns.Uri);
             }
 
-            _entityMapper = new EntityMapper(_namespaceResolver, _inRiverManager, _importMapping);
+
+            _entityMapper = new EntityMapper(_namespaceResolver, _cvlRepository, _importMapping);
         }
 
         private XPathNavigator GetNavigator()

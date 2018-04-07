@@ -24,17 +24,21 @@
 using System.Collections.Generic;
 using inRiver.Remoting.Extension;
 using inRiver.Remoting.Objects;
+using StefanOlsen.InRiver.MappedImporter.Mappers;
 using StefanOlsen.InRiver.MappedImporter.Models;
+using StefanOlsen.InRiver.MappedImporter.Utilities;
 
 namespace StefanOlsen.InRiver.MappedImporter
 {
     public class ImportProcessor
     {
+        private readonly ModelsRepository _modelsRepository;
         private readonly inRiverContext _context;
 
         public ImportProcessor(inRiverContext context)
         {
             _context = context;
+            _modelsRepository = new ModelsRepository(context.ExtensionManager);
         }
 
         public void DeleteEntities(IEnumerable<MappedEntity> mappedEntities)
@@ -63,10 +67,10 @@ namespace StefanOlsen.InRiver.MappedImporter
                     .GetEntityByUniqueValue(
                         mappedEntity.UniqueFieldType,
                         mappedEntity.UniqueFieldValue,
-                        LoadLevel.DataAndLinks);
+                        LoadLevel.DataOnly);
                 if (entity == null)
                 {
-                    EntityType entityType = _context.ExtensionManager.ModelService
+                    EntityType entityType = _modelsRepository
                         .GetEntityType(mappedEntity.EntityType);
                     entity = Entity.CreateEntity(entityType);
                 }
@@ -106,12 +110,12 @@ namespace StefanOlsen.InRiver.MappedImporter
 
                 foreach (MappedLink mappedLink in mappedEntity.Links)
                 {
-                    ImportLink(mappedEntity, mappedLink, entity);
+                    ImportLink(mappedLink, entity);
                 }
             }
         }
 
-        private void ImportLink(MappedEntity mappedEntity, MappedLink mappedLink, Entity currentEntity)
+        private void ImportLink(MappedLink mappedLink, Entity currentEntity)
         {
             Entity linkedEntity = _context.ExtensionManager.DataService.GetEntityByUniqueValue(
                 mappedLink.LinkedUniqueFieldType,
@@ -122,7 +126,7 @@ namespace StefanOlsen.InRiver.MappedImporter
                 return;
             }
 
-            LinkType linkType = _context.ExtensionManager.ModelService.GetLinkType(mappedLink.LinkType);
+            LinkType linkType = _modelsRepository.GetLinkType(mappedLink.LinkType);
             if (linkType == null)
             {
                 return;

@@ -24,6 +24,7 @@
 using System.Collections.Generic;
 using inRiver.Remoting.Extension;
 using inRiver.Remoting.Extension.Interface;
+using StefanOlsen.InRiver.MappedImporter.Mappers;
 using StefanOlsen.InRiver.MappedImporter.Models;
 using StefanOlsen.InRiver.MappedImporter.Utilities;
 
@@ -39,7 +40,7 @@ namespace StefanOlsen.InRiver.MappedImporter
 
         public string Test()
         {
-            throw new NotImplementedException();
+            return "Nothing to test.";
         }
 
         public string Add(string value)
@@ -50,12 +51,12 @@ namespace StefanOlsen.InRiver.MappedImporter
                 throw new Exception("No setting called MAPPING_CONFIGURATION_XML was found.");
             }
 
-            CatalogDocument document = new CatalogDocument(Context.ExtensionManager);
+            CatalogDocument document = new CatalogDocument(Context);
             document.Initialize(mappingDocument, value);
 
-            ImportProcessor processor = new ImportProcessor(Context);
-
             IEnumerable<MappedEntity> mappedEntities = document.GetEntities();
+
+            ImportProcessor processor = new ImportProcessor(Context);
             processor.ImportEntities(mappedEntities);
 
             return "SUCCESS";
