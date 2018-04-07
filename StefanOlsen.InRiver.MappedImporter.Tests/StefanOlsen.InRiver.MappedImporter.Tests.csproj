@@ -72,7 +72,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="InboundDataExtensionTests.cs" />
-    <Compile Include="EmbeddedResourceHelper.cs" />
     <Compile Include="Fakes\FakeInRiverManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XUnitLogger.cs" />

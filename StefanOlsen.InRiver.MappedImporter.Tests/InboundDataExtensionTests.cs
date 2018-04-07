@@ -33,11 +33,6 @@ namespace StefanOlsen.InRiver.MappedImporter.Tests
 {
     public class InboundDataExtensionTests
     {
-        private const string MappingConfigurationFilePath =
-            "StefanOlsen.InRiver.MappedImporter.Tests.FieldMapping.xml";
-        private const string TestDataFilePath =
-            "StefanOlsen.InRiver.MappedImporter.Tests.TestData.xml";
-
         private readonly XUnitLogger _extensionLog;
 
         public InboundDataExtensionTests(ITestOutputHelper outputHelper)
@@ -47,7 +42,6 @@ namespace StefanOlsen.InRiver.MappedImporter.Tests
 
         private IInboundDataExtension CreateExtension()
         {
-            string mappingConfiguration = EmbeddedResourceHelper.GetResourceTextFile(MappingConfigurationFilePath);
 
             IinRiverManager inRiverManager = new FakeInRiverManager();
 
@@ -66,7 +60,6 @@ namespace StefanOlsen.InRiver.MappedImporter.Tests
         [Fact]
         public void TestAddData()
         {
-            string testData = EmbeddedResourceHelper.GetResourceTextFile(TestDataFilePath);
 
             IInboundDataExtension extension = CreateExtension();
             
