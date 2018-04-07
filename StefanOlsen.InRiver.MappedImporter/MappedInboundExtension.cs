@@ -24,6 +24,7 @@
 using System.Collections.Generic;
 using inRiver.Remoting.Extension;
 using inRiver.Remoting.Extension.Interface;
+using inRiver.Remoting.Log;
 using StefanOlsen.InRiver.MappedImporter.Mappers;
 using StefanOlsen.InRiver.MappedImporter.Models;
 using StefanOlsen.InRiver.MappedImporter.Utilities;
@@ -51,13 +52,17 @@ namespace StefanOlsen.InRiver.MappedImporter
                 throw new Exception("No setting called MAPPING_CONFIGURATION_XML was found.");
             }
 
+            Context.Log(LogLevel.Information, "Initializing extension configuration and field mappings.");
             CatalogDocument document = new CatalogDocument(Context);
             document.Initialize(mappingDocument, value);
+            Context.Log(LogLevel.Information, "Finished initializing extension configuration and field mappings.");
 
+            Context.Log(LogLevel.Information, "Parsing XML document and importing entities.");
             IEnumerable<MappedEntity> mappedEntities = document.GetEntities();
 
             ImportProcessor processor = new ImportProcessor(Context);
             processor.ImportEntities(mappedEntities);
+            Context.Log(LogLevel.Information, "Finished parsing XML document and importing entities.");
 
             return "SUCCESS";
         }

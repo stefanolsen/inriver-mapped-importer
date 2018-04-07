@@ -23,6 +23,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using inRiver.Remoting.Extension;
+using inRiver.Remoting.Log;
 using inRiver.Remoting.Objects;
 using StefanOlsen.InRiver.MappedImporter.Mappers;
 using StefanOlsen.InRiver.MappedImporter.Models;
@@ -101,11 +102,11 @@ namespace StefanOlsen.InRiver.MappedImporter
 
                 if (entity.Id == 0)
                 {
-                    _context.ExtensionManager.DataService.AddEntity(entity);
+                    entity = _context.ExtensionManager.DataService.AddEntity(entity);
                 }
                 else if (entityModified)
                 {
-                    _context.ExtensionManager.DataService.UpdateEntity(entity);
+                    entity = _context.ExtensionManager.DataService.UpdateEntity(entity);
                 }
 
                 foreach (MappedLink mappedLink in mappedEntity.Links)
@@ -129,7 +130,7 @@ namespace StefanOlsen.InRiver.MappedImporter
             LinkType linkType = _modelsRepository.GetLinkType(mappedLink.LinkType);
             if (linkType == null)
             {
-                return;
+                throw new InvalidOperationException("The link type '{mappedLink.LinkType}' does not exist in the model.");
             }
 
             Entity sourceEntity;
