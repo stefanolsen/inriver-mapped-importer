@@ -25,7 +25,6 @@ using System.Collections.Generic;
 using inRiver.Remoting.Extension;
 using inRiver.Remoting.Extension.Interface;
 using inRiver.Remoting.Log;
-using StefanOlsen.InRiver.MappedImporter.Mappers;
 using StefanOlsen.InRiver.MappedImporter.Models;
 using StefanOlsen.InRiver.MappedImporter.Utilities;
 

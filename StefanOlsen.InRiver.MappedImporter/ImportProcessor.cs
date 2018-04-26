@@ -23,7 +23,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using inRiver.Remoting.Extension;
-using inRiver.Remoting.Log;
 using inRiver.Remoting.Objects;
 using StefanOlsen.InRiver.MappedImporter.Mappers;
 using StefanOlsen.InRiver.MappedImporter.Models;

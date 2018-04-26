@@ -35,7 +35,6 @@ namespace StefanOlsen.InRiver.MappedImporter
 {
     public class CatalogDocument
     {
-        private readonly inRiverContext _context;
         private readonly CvlRepository _cvlRepository;
         private readonly XmlNamespaceManager _namespaceResolver;
 
@@ -47,8 +46,6 @@ namespace StefanOlsen.InRiver.MappedImporter
 
         public CatalogDocument(inRiverContext context)
         {
-            _context = context;
-
             _cvlRepository = new CvlRepository(context.ExtensionManager);
             _namespaceResolver = new XmlNamespaceManager(new NameTable());
         }

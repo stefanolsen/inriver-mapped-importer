@@ -20,8 +20,7 @@
  * SOFTWARE.
  */
 
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Xml;
 using System.Xml.XPath;
 using StefanOlsen.InRiver.MappedImporter.Models.Mapping;
