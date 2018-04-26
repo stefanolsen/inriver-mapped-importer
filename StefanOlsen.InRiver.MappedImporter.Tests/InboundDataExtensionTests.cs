@@ -42,11 +42,12 @@ namespace StefanOlsen.InRiver.MappedImporter.Tests
 
         private IInboundDataExtension CreateExtension()
         {
+            string mappingConfiguration = TestFiles.FieldMapping;
 
             IinRiverManager inRiverManager = new FakeInRiverManager();
 
             inRiverContext context = new inRiverContext(inRiverManager, _extensionLog);
-            context.Settings = new Dictionary<string, string>()
+            context.Settings = new Dictionary<string, string>
             {
                 {"MAPPING_CONFIGURATION_XML", mappingConfiguration}
             };
@@ -60,6 +61,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Tests
         [Fact]
         public void TestAddData()
         {
+            string testData = TestFiles.TestData;
 
             IInboundDataExtension extension = CreateExtension();
             

@@ -8,19 +8,54 @@
     <Language Original="da" InRiver="da"/>
     <Language Original="en" InRiver="en"/>
   </Languages>
-  <Entity EntityType="Product" Root="//ns:product">
+  <Entity EntityType="Product" Root="/ns:catalog-export/ns:product" UniqueFieldType="ProductNumber">
     <!-- Product fields -->
     <Fields>
-      <StringField FieldType="ProductNumber" AttributeName="ns:number"/>
+      <StringField FieldType="ProductNumber" ElementPath="./@id"/>
       <LocaleStringField FieldType="ProductName" ElementPath="ns:product-name"/>
+      <CvlField FieldType="ProductBrand" Cvl="Brand" AddValues="true" ElementPath="ns:brand"/>
+      <CvlField FieldType="ProductMainCategory" Cvl="MainCategory" AddValues="true" ElementPath="ns:main-category"/>
+      <CvlField FieldType="ProductSubCategory" Cvl="SubCategory" AddValues="true" ElementPath="ns:sub-category"/>
+      <CvlField FieldType="ProductMarkets" Cvl="Market" AddValues="true" Multivalue="true" ElementPath="ns:markets/market"/>
+      <CvlField FieldType="ProductFashionGender" Cvl="Gender" AddValues="true" Multivalue="true" ElementPath="ns:genders/gender"/>
+      <CvlField FieldType="ProductIndustry" Cvl="Industry" ElementPath="ns:industry"/>
     </Fields>
+    <FieldSets XPath="ns:industry">
+      <FieldSet FieldSetName="DIYProduct" Value="diy"/>
+      <FieldSet FieldSetName="FashionProduct" Value="fashionretail"/>
+      <FieldSet FieldSetName="FashionRetailComposition" Value="fashionretail"/>
+      <FieldSet FieldSetName="Food" Value="food"/>
+      <FieldSet FieldSetName="FurnitureProduct" Value="furniture"/>
+      <FieldSet FieldSetName="ManufacturingProduct" Value="manufacturing"/>
+      <FieldSet FieldSetName="RetailElectronicsProduct" Value="fashionretail"/>
+    </FieldSets>
 
     <!-- Sub-entities -->
-    <Entity EntityType="Item" Root="descendant::ns:variant">
+    <Entity EntityType="Item" Root="descendant::ns:variant" UniqueFieldType="ItemNumber">
       <Fields>
-        <StringField FieldType="ProductNumber" AttributeName="ns:number"/>
+        <StringField FieldType="ItemNumber" ElementPath="./@id"/>
+        <StringField FieldType="ItemUPCcode" ElementPath="ns:upc"/>
         <LocaleStringField FieldType="ItemName" ElementPath="ns:item-name"/>
+        <CvlField FieldType="ItemIndustry" Cvl="Industry" ElementPath="ns:industry"/>
+        <CvlField FieldType="ItemFashionSeason" Cvl="ItemSeason" AddValues="true" Multivalue="true" ElementPath="ns:seasons/season"/>
       </Fields>
+
+      <FieldSets XPath="ns:industry">
+        <FieldSet FieldSetName="DIYItem" Value="diy"/>
+        <FieldSet FieldSetName="DIYItem2" Value="diy"/>
+        <FieldSet FieldSetName="FashionItem" Value="fashionretail"/>
+        <FieldSet FieldSetName="FashionRetailComposition" Value="fashionretail"/>
+        <FieldSet FieldSetName="ItemFood" Value="food"/>
+        <FieldSet FieldSetName="ItemDIYLawnMower" Value="diy"/>
+        <FieldSet FieldSetName="ItemManufacturingSolarConnections" Value="manufacturing"/>
+        <FieldSet FieldSetName="ManufacturingWaterHeater" Value="manufacturing"/>
+        <FieldSet FieldSetName="RetailElectronicsItem" Value="fashionretail"/>
+        <FieldSet FieldSetName="WirelessHeadset" Value="fashionretail"/>
+      </FieldSets>
+
+      <ParentLinks>
+        <Link LinkType="ProductItem" SourcePath="string(../@id)" TargetUniqueFieldType="ProductID"/>
+      </ParentLinks>
     </Entity>
   </Entity>
 </ImportMapping>
