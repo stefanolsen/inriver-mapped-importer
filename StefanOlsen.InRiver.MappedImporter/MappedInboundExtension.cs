@@ -22,9 +22,14 @@
 
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using inRiver.Remoting;
+using inRiver.Remoting.Cache;
 using inRiver.Remoting.Extension;
 using inRiver.Remoting.Extension.Interface;
 using inRiver.Remoting.Log;
+using inRiver.Remoting.Objects;
 using StefanOlsen.InRiver.MappedImporter.Models;
 using StefanOlsen.InRiver.MappedImporter.Utilities;
 
@@ -51,6 +56,8 @@ namespace StefanOlsen.InRiver.MappedImporter
                 throw new Exception("No setting called MAPPING_CONFIGURATION_XML was found.");
             }
 
+            InitializeCache();
+
             Context.Log(LogLevel.Information, "Initializing extension configuration and field mappings.");
             CatalogDocument document = new CatalogDocument(Context);
             document.Initialize(mappingDocument, value);
@@ -74,6 +81,50 @@ namespace StefanOlsen.InRiver.MappedImporter
         public string Delete(string value)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Preloads certain model data (as described on https://community.inriver.com/product/technical-descriptions/directives/cache-in-remotemanager/).
+        /// This is to avoid loading all entity types and link types on loading every single entity or link.
+        /// </summary>
+        private void InitializeCache()
+        {
+            var remoteManager = Context.ExtensionManager as RemoteManager;
+            if (remoteManager == null)
+            {
+                return;
+            }
+
+            Context.Log(LogLevel.Information, "Preloading caching.");
+            var cache = new CacheContainer();
+
+            List<CultureInfo> cultures = remoteManager.UtilityService.GetAllLanguages();
+            cache.SetLanguages(cultures);
+
+            List<CVL> cvls = remoteManager.ModelService.GetAllCVLs();
+            cache.SetCVLs(cvls);
+
+            Dictionary<string, List<CVLValue>> allCvlValues = new Dictionary<string, List<CVLValue>>();
+            foreach (var cvl in cvls)
+            {
+                // Loading values one CVL at a time proved faster than loading and grouping all values.
+                List<CVLValue> cvlValues = remoteManager.ModelService.GetCVLValuesForCVL(cvl.Id);
+                allCvlValues.Add(cvl.Id, cvlValues);
+            }
+            cache.SetCVLValues(allCvlValues);
+
+            List<EntityType> entityTypes = remoteManager.ModelService.GetAllEntityTypes();
+            cache.SetEntityTypes(entityTypes);
+
+            List<LinkType> linkTypes = remoteManager.ModelService.GetAllLinkTypes();
+            cache.SetLinkTypes(linkTypes);
+
+            cache.SetFieldTypes(entityTypes.SelectMany(et => et.FieldTypes).ToList());
+
+            cache.LatestUpdate = DateTime.UtcNow;
+            remoteManager.SetCache(cache);
+
+            Context.Log(LogLevel.Information, "Finished preloading caching.");
         }
     }
 }
