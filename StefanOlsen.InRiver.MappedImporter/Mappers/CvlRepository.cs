@@ -91,6 +91,19 @@ namespace StefanOlsen.InRiver.MappedImporter.Mappers
             return _cvls.Values;
         }
 
+        public CVL GetCVL(string cvlId)
+        {
+            if (_cvls.Count == 0)
+            {
+                // If not found, preload all CVLs.
+                GetAllCVLs();
+            }
+
+            return _cvls.TryGetValue(cvlId, out CVL cvl)
+                ? cvl
+                : null;
+        }
+
         public CVLValue GetCVLValueByKey(string cvlId, string key)
         {
             if (!_cvlValues.TryGetValue(cvlId, out Dictionary<string, CVLValue> cvlValues))

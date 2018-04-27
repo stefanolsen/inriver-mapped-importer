@@ -21,6 +21,8 @@
  */
 
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Xml.XPath;
 using inRiver.Remoting.Objects;
@@ -33,10 +35,14 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
     public class CvlFieldParser : IFieldParser
     {
         private readonly CvlRepository _cvlRepository;
+        private readonly IDictionary<string, CultureInfo> _supportedCultures;
 
-        public CvlFieldParser(CvlRepository cvlRepository)
+        public CvlFieldParser(
+            CvlRepository cvlRepository,
+            IDictionary<string, CultureInfo> supportedCultures)
         {
             _cvlRepository = cvlRepository;
+            _supportedCultures = supportedCultures;
         }
 
         public object GetElementValue(XPathNavigator parentNode, BaseField fieldMapping, XPathExpression xpath)
@@ -60,7 +66,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
             else
             {
                 string[] values = node.Value.Split(
-                    new[] {cvlFieldMapping.Separator},
+                    new[] { cvlFieldMapping.Separator },
                     StringSplitOptions.RemoveEmptyEntries);
                 cvlValue = string.Join(";", values
                     .Select(cv => GetCvlFieldValue(cvlId, cv, addValues))
@@ -70,7 +76,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
             return cvlValue;
         }
 
-        private string GetCvlFieldValue(string cvl, string value, bool addValue)
+        private string GetCvlFieldValue(string cvlId, string value, bool addValue)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
@@ -83,9 +89,13 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
                 return null;
             }
 
-            key = key.ToLowerInvariant();
+            CVL cvl = _cvlRepository.GetCVL(cvlId);
+            if (cvl == null)
+            {
+                return null;
+            }
 
-            CVLValue cvlValue = _cvlRepository.GetCVLValueByKey(cvl, key);
+            CVLValue cvlValue = _cvlRepository.GetCVLValueByKey(cvl.Id, key);
             if (cvlValue != null)
             {
                 return cvlValue.Key;
@@ -96,7 +106,25 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
                 return null;
             }
 
-            cvlValue = new CVLValue { CVLId = cvl, Key = key, Value = value };
+            if (cvl.DataType == DataType.String)
+            {
+                cvlValue = new CVLValue { CVLId = cvl.Id, Key = key, Value = value };
+            }
+            else if (cvl.DataType == DataType.LocaleString)
+            {
+                var localeString = new LocaleString();
+                foreach (CultureInfo culture in _supportedCultures.Values)
+                {
+                    localeString[culture] = value;
+                }
+
+                cvlValue = new CVLValue { CVLId = cvl.Id, Key = key, Value = localeString };
+            }
+            else
+            {
+                return null;
+            }
+
             _cvlRepository.AddCVLValue(cvlValue);
 
             return key;

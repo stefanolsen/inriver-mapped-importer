@@ -89,7 +89,7 @@ namespace StefanOlsen.InRiver.MappedImporter.Parsers
                     fieldParser = new StringFieldParser();
                     break;
                 case nameof(CvlField):
-                    fieldParser = new CvlFieldParser(_cvlRepository);
+                    fieldParser = new CvlFieldParser(_cvlRepository, _supportedCultures);
                     break;
                 case nameof(SKUField):
                     fieldParser = new SkuFieldParser(_xPathCompiler);
