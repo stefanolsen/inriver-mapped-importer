@@ -16,7 +16,7 @@
       <CvlField FieldType="ProductBrand" Cvl="Brand" AddValues="true" ElementPath="ns:brand"/>
       <CvlField FieldType="ProductMainCategory" Cvl="MainCategory" AddValues="true" ElementPath="ns:main-category"/>
       <CvlField FieldType="ProductSubCategory" Cvl="SubCategory" AddValues="true" ElementPath="ns:sub-category"/>
-      <CvlField FieldType="ProductMarkets" Cvl="Market" AddValues="true" Multivalue="true" ElementPath="ns:markets/market"/>
+      <CvlField FieldType="ProductMarket" Cvl="Market" AddValues="true" Multivalue="true" ElementPath="ns:markets/market"/>
       <CvlField FieldType="ProductFashionGender" Cvl="Gender" AddValues="true" Multivalue="true" ElementPath="ns:genders/gender"/>
       <CvlField FieldType="ProductIndustry" Cvl="Industry" ElementPath="ns:industry"/>
     </Fields>
@@ -35,7 +35,6 @@
       <Fields>
         <StringField FieldType="ItemNumber" ElementPath="./@id"/>
         <StringField FieldType="ItemUPCcode" ElementPath="ns:upc"/>
-        <LocaleStringField FieldType="ItemName" ElementPath="ns:item-name"/>
         <CvlField FieldType="ItemIndustry" Cvl="Industry" ElementPath="ns:industry"/>
         <CvlField FieldType="ItemFashionSeason" Cvl="ItemSeason" AddValues="true" Multivalue="true" ElementPath="ns:seasons/season"/>
       </Fields>
