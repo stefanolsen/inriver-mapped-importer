@@ -23,6 +23,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using inRiver.Remoting.Extension;
+using inRiver.Remoting.Log;
 using inRiver.Remoting.Objects;
 using StefanOlsen.InRiver.MappedImporter.Mappers;
 using StefanOlsen.InRiver.MappedImporter.Models;
@@ -32,12 +33,14 @@ namespace StefanOlsen.InRiver.MappedImporter
 {
     public class ImportProcessor
     {
+        private readonly EntityRepository _entityRepository;
         private readonly ModelsRepository _modelsRepository;
         private readonly inRiverContext _context;
 
         public ImportProcessor(inRiverContext context)
         {
             _context = context;
+            _entityRepository = new EntityRepository(context.ExtensionManager);
             _modelsRepository = new ModelsRepository(context.ExtensionManager);
         }
 
@@ -45,7 +48,7 @@ namespace StefanOlsen.InRiver.MappedImporter
         {
             foreach (MappedEntity mappedEntity in mappedEntities)
             {
-                Entity entity = _context.ExtensionManager.DataService
+                Entity entity = _entityRepository
                     .GetEntityByUniqueValue(
                         mappedEntity.UniqueFieldType,
                         mappedEntity.UniqueFieldValue,
@@ -55,15 +58,18 @@ namespace StefanOlsen.InRiver.MappedImporter
                     continue;
                 }
 
-                _context.ExtensionManager.DataService.DeleteEntity(entity.Id);
+                _entityRepository.DeleteEntity(entity.Id);
             }
         }
 
         public void ImportEntities(IEnumerable<MappedEntity> mappedEntities)
         {
+            int count = 0;
+
             foreach (MappedEntity mappedEntity in mappedEntities)
             {
-                Entity entity = _context.ExtensionManager.DataService
+                bool newEntity = false;
+                Entity entity = _entityRepository
                     .GetEntityByUniqueValue(
                         mappedEntity.UniqueFieldType,
                         mappedEntity.UniqueFieldValue,
@@ -73,6 +79,7 @@ namespace StefanOlsen.InRiver.MappedImporter
                     EntityType entityType = _modelsRepository
                         .GetEntityType(mappedEntity.EntityType);
                     entity = Entity.CreateEntity(entityType);
+                    newEntity = true;
                 }
 
                 bool entityModified = false;
@@ -93,6 +100,16 @@ namespace StefanOlsen.InRiver.MappedImporter
                     entityModified = true;
                 }
 
+                switch (mappedEntity.EntityType)
+                {
+                    case "Product":
+                        entity.GetField("ProductDevMode").Data = true;
+                        break;
+                    case "Item":
+                        entity.GetField("ItemDevMode").Data = true;
+                        break;
+                }
+
                 if (entity.FieldSetId != mappedEntity.FieldSet)
                 {
                     entity.FieldSetId = mappedEntity.FieldSet;
@@ -101,27 +118,30 @@ namespace StefanOlsen.InRiver.MappedImporter
 
                 if (entity.Id == 0)
                 {
-                    entity = _context.ExtensionManager.DataService.AddEntity(entity);
+                    entity = _entityRepository.AddEntity(entity);
                 }
                 else if (entityModified)
                 {
-                    entity = _context.ExtensionManager.DataService.UpdateEntity(entity);
+                    entity = _entityRepository.UpdateEntity(entity);
                 }
 
                 foreach (MappedLink mappedLink in mappedEntity.Links)
                 {
-                    ImportLink(mappedLink, entity);
+                    ImportLink(mappedLink, entity, newEntity);
                 }
+
+                count++;
             }
+
+            _context.Log(LogLevel.Information, $"Finished importing {count} entities.");
         }
 
-        private void ImportLink(MappedLink mappedLink, Entity currentEntity)
+        private void ImportLink(MappedLink mappedLink, Entity currentEntity, bool newEntity)
         {
-            Entity linkedEntity = _context.ExtensionManager.DataService.GetEntityByUniqueValue(
+            int linkedEntityId = _entityRepository.GetEntityIdByUniqueValue(
                 mappedLink.LinkedUniqueFieldType,
-                mappedLink.LinkedUniqueFieldValue,
-                LoadLevel.Shallow);
-            if (linkedEntity == null)
+                mappedLink.LinkedUniqueFieldValue);
+            if (linkedEntityId == 0)
             {
                 return;
             }
@@ -136,17 +156,20 @@ namespace StefanOlsen.InRiver.MappedImporter
             Entity targetEntity;
             if (mappedLink.Direction == LinkDirection.ChildParent)
             {
-                sourceEntity = linkedEntity;
+                sourceEntity = new Entity {Id = linkedEntityId};
                 targetEntity = currentEntity;
             }
             else
             {
                 sourceEntity = currentEntity;
-                targetEntity = linkedEntity;
+                targetEntity = new Entity {Id = linkedEntityId};
             }
 
-            bool linkExists = _context.ExtensionManager.DataService.LinkAlreadyExists(
-                sourceEntity.Id, targetEntity.Id, null, linkType.Id);
+            // If entity is new, there would be no existing links.
+            // If it is not new, skip adding a link if it already exists.
+            bool linkExists = !newEntity &&
+                              _entityRepository.LinkAlreadyExists(
+                                  sourceEntity.Id, targetEntity.Id, null, linkType.Id);
             if (linkExists)
             {
                 return;
@@ -160,7 +183,7 @@ namespace StefanOlsen.InRiver.MappedImporter
                 Index = mappedLink.SortIndex
             };
 
-            _context.ExtensionManager.DataService.AddLink(link);
+            _entityRepository.AddLink(link);
         }
     }
 }
