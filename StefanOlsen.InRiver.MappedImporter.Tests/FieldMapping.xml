@@ -53,7 +53,7 @@
       </FieldSets>
 
       <ParentLinks>
-        <Link LinkType="ProductItem" SourcePath="string(../@id)" TargetUniqueFieldType="ProductID"/>
+        <Link LinkType="ProductItem" SourcePath="string(../@id)" TargetUniqueFieldType="ProductNumber"/>
       </ParentLinks>
     </Entity>
   </Entity>
