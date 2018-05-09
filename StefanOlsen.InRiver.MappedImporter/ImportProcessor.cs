@@ -100,16 +100,6 @@ namespace StefanOlsen.InRiver.MappedImporter
                     entityModified = true;
                 }
 
-                switch (mappedEntity.EntityType)
-                {
-                    case "Product":
-                        entity.GetField("ProductDevMode").Data = true;
-                        break;
-                    case "Item":
-                        entity.GetField("ItemDevMode").Data = true;
-                        break;
-                }
-
                 if (entity.FieldSetId != mappedEntity.FieldSet)
                 {
                     entity.FieldSetId = mappedEntity.FieldSet;
